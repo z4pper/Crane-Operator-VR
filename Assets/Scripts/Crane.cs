@@ -19,19 +19,31 @@ public class Crane : MonoBehaviour
     private void Update()
     {
         OVRInput.Update();
+        var primaryThumbX = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick).x;
+        var primaryThumbY = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick).y;
+        var secondaryThumbY = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick).y;
+        
+        if (primaryThumbX != 0f)
+        {
+            RotateCrane(primaryThumbX);
+        }
 
-        RotateCrane(OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick).x);
+        if (primaryThumbY != 0f)
+        {
+            MoveCablePlate(primaryThumbY);
+        }
 
-        MoveCablePlate(OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick).y);
-
-        MoveHook(OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick).y);
-
+        if (secondaryThumbY != 0f)
+        {
+            MoveHook(secondaryThumbY);
+        }
     }
 
 
     private void RotateCrane(float speed)
     {
-        upperCranePart.RotateAround(upperCranePart.transform.position, Vector3.up, speed * rotateSpeed * Time.deltaTime);
+        upperCranePart.RotateAround(upperCranePart.transform.position, Vector3.up,
+            speed * rotateSpeed * Time.deltaTime);
     }
 
     private void MoveCablePlate(float direction)
@@ -59,6 +71,6 @@ public class Crane : MonoBehaviour
 
         var cableScale = cable.localScale;
         cableScale.y = scale;
-        cable.localScale = cableScale; 
+        cable.localScale = cableScale;
     }
 }
