@@ -66,25 +66,25 @@ public class Crane : MonoBehaviour
 
     private void MoveHook(float direction)
     {
-        cableRB.isKinematic = true;
-        hookRB.isKinematic = true;
-        magnetPlateRB.isKinematic = true;
+        // cableRB.isKinematic = true;
+        // hookRB.isKinematic = true;
+        // magnetPlateRB.isKinematic = true;
 
         var posHookHJ = hookHJ.connectedAnchor;
-        var posHook = hook.position;
-        var posCable = cableHJ.connectedAnchor;
+        // var posHook = hook.position;
+        // var posCable = cableHJ.connectedAnchor;
         var posDelta = direction * hookMoveSpeed * Time.deltaTime;
-        posHook.y -= posDelta;
+        // posHook.y -= posDelta;
         posHookHJ.y -= posDelta;
         
         // var pos = hook.localPosition;
         // pos.y -= direction * hookMoveSpeed * Time.deltaTime;
 
-        if (posHook.y > maxHookPosY) posHook.y = maxHookPosY;
-        if (posHook.y < minHookPosY) posHook.y = minHookPosY;
+        if (posHookHJ.y > maxHookPosY) posHookHJ.y = maxHookPosY;
+        if (posHookHJ.y < minHookPosY) posHookHJ.y = minHookPosY;
 
         hookHJ.connectedAnchor = posHookHJ;
-        hook.position = posHook;
+        // hook.position = posHook;
         //hook.localPosition = pos;
 
         var scale = 1 - posHookHJ.y / maxHookPosY;
@@ -93,11 +93,11 @@ public class Crane : MonoBehaviour
         cableScale.y = scale;
         cable.localScale = cableScale;
 
-        posCable.y -= posDelta;
-        cableHJ.connectedAnchor = posCable; 
+        // posCable.y -= posDelta;
+        // cableHJ.connectedAnchor = posCable; 
         
-        cableRB.isKinematic = false;
-        hookRB.isKinematic = false;
-        magnetPlateRB.isKinematic = false;
+        // cableRB.isKinematic = false;
+        // hookRB.isKinematic = false;
+        // magnetPlateRB.isKinematic = false;
     }
 }
