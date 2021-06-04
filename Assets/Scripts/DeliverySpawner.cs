@@ -20,14 +20,7 @@ public class DeliverySpawner : MonoBehaviour
         go.transform.position = deliverySpawnPosition.position;
 
         currentAgent = go.GetComponent<NavMeshAgent>();
+        currentAgent.enabled = true;
         currentAgent.destination = deliveryTargetPosition.position;
-    }
-
-    private void Update()
-    {
-        if (currentAgent != null)
-        {
-            Debug.Log(currentAgent.remainingDistance);
-        }
     }
 }
