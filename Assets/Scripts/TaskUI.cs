@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using ScriptableObjects;
 using UnityEngine;
 
 public class TaskUI : MonoBehaviour
@@ -6,7 +7,7 @@ public class TaskUI : MonoBehaviour
     [SerializeField] private GameObject taskTable;
     [SerializeField] private GameObject taskTableEntry;
     [SerializeField] private int taskLimit;
-    [SerializeField] private VoidEventChannelSO taskCreatedEventChannel;
+    [SerializeField] private TaskEventChannelSO taskCreatedEventChannel;
 
     private List<GameObject> taskTableEntrys = new List<GameObject>();
 
@@ -20,9 +21,8 @@ public class TaskUI : MonoBehaviour
         taskCreatedEventChannel.OnEventRaised -= CreateTask;
     }
 
-    private void CreateTask()
+    private void CreateTask(TaskDataSO taskData)
     {
-        //TODO: create channel for task event which has taskDataSO as parameter
         var go = Instantiate(taskTableEntry, taskTable.transform, false);
         taskTableEntrys.Add(go);
     }
