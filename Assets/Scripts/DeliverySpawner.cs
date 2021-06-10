@@ -16,11 +16,6 @@ public class DeliverySpawner : MonoBehaviour
 
     private void SpawnDelivery()
     {
-        var go = Instantiate(containerDeliveryPrefab);
-        go.transform.position = deliverySpawnPosition.position;
 
-        currentAgent = go.GetComponent<NavMeshAgent>();
-        currentAgent.enabled = true;
-        currentAgent.destination = deliveryTargetPosition.position;
     }
 }
