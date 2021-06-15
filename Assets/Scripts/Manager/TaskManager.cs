@@ -28,7 +28,7 @@ public class TaskManager : MonoBehaviour
     private void CreateTask()
     {
         var taskData = possibleTasks[Random.Range(0, possibleTasks.Count)];
-        switch (taskData.taskType) 
+        switch (taskData.TaskType) 
         {
             case TaskType.Unload:
             {

@@ -33,9 +33,9 @@ public class TaskUI : MonoBehaviour
         var tableEntry = Instantiate(taskTableEntry, taskTable.transform, false);
         taskDataToTableEntry.Add(taskDataBase, tableEntry);
 
-        tableEntry.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = taskDataBase.priority.ToString();
-        tableEntry.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = taskDataBase.description;
-        tableEntry.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"{taskDataBase.currentAmount}/{taskDataBase.requiredAmount}";
+        tableEntry.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = taskDataBase.Priority.ToString();
+        tableEntry.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = taskDataBase.Description;
+        tableEntry.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"{taskDataBase.currentAmount}/{taskDataBase.RequiredAmount}";
     }
 
     private void RemoveTask(TaskDataBaseSO taskDataBaseSo)
@@ -48,6 +48,6 @@ public class TaskUI : MonoBehaviour
     private void UpdateTaskProgression(TaskDataBaseSO taskDataBase)
     {
         var tableEntry = taskDataToTableEntry[taskDataBase];
-        tableEntry.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"{taskDataBase.currentAmount}/{taskDataBase.requiredAmount}";
+        tableEntry.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"{taskDataBase.currentAmount}/{taskDataBase.RequiredAmount}";
     }
 }

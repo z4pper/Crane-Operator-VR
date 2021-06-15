@@ -15,7 +15,7 @@ public class UnloadingTask : TaskGoal
     public UnloadingTask(TaskDataBaseSO taskData)
     {
         _taskDataUnloading = (TaskDataUnloadingSO) taskData;
-        _taskDataUnloading.cargoUnloadedEventChannel.OnCargoUnload += OnCargoUnloadedUnloaded;
+        _taskDataUnloading.CargoUnloadedEventChannel.OnCargoUnload += OnCargoUnloadedUnloaded;
     }
 
     private void OnCargoUnloadedUnloaded(VehicleController vehicleController)
@@ -29,11 +29,11 @@ public class UnloadingTask : TaskGoal
     public override void IncreaseCurrentAmount()
     {
         _taskDataUnloading.currentAmount++;
-        _taskDataUnloading.taskProgressionEventChannel.RaiseEvent(_taskDataUnloading);
+        _taskDataUnloading.TaskProgressionEventChannel.RaiseEvent(_taskDataUnloading);
         Debug.Log("Current amount = " + _taskDataUnloading.currentAmount );
-        if (_taskDataUnloading.currentAmount >= _taskDataUnloading.requiredAmount)
+        if (_taskDataUnloading.currentAmount >= _taskDataUnloading.RequiredAmount)
         {
-            _taskDataUnloading.taskCompletedEventChannel.RaiseEvent(_taskDataUnloading);
+            _taskDataUnloading.TaskCompletedEventChannel.RaiseEvent(_taskDataUnloading);
         }
     }
 
@@ -46,6 +46,6 @@ public class UnloadingTask : TaskGoal
         var vehicle = _taskDataUnloading.Vehicle;
         var navAgent = vehicle.GetComponent<NavMeshAgent>();
         navAgent.enabled = true;
-        navAgent.destination = _taskDataUnloading.unloadTargetPosition.position;
+        navAgent.destination = _taskDataUnloading.UnloadTargetPosition.position;
     }
 }

@@ -3,15 +3,16 @@
 [CreateAssetMenu(fileName = "new Unloading Task Data", menuName = "TaskData/Unloading")]
 public class TaskDataUnloadingSO : TaskDataBaseSO
 {
-    [SerializeField]private GameObject vehicle;
-    public Transform spawnPosition;
-    public Transform unloadTargetPosition;
-    public CargoEventChannelSO cargoUnloadedEventChannel;
+    [field: SerializeField] public Transform SpawnPosition { get; private set; }
+    [field: SerializeField] public Transform UnloadTargetPosition { get; private set; }
+    [field: SerializeField] public CargoEventChannelSO CargoUnloadedEventChannel { get; private set; }
     
+    [SerializeField]private GameObject vehicle;
+
     public GameObject Vehicle { get; set; }
 
     public void InstantiateVehicle()
     {
-        Vehicle = Instantiate(vehicle, spawnPosition.position, Quaternion.identity);
+        Vehicle = Instantiate(vehicle, SpawnPosition.position, Quaternion.identity);
     }
 }

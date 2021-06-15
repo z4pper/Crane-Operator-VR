@@ -2,15 +2,14 @@ using UnityEngine;
 
 public abstract class TaskDataBaseSO : ScriptableObject
 {
-    public int priority;
-    public string description;
-    public int requiredAmount;
-
-    public TaskType taskType;
-    public TaskEventChannelSO taskCompletedEventChannel;
-    public TaskEventChannelSO taskProgressionEventChannel;
+    [field: SerializeField] public int Priority { get; private set; }
+    [field: SerializeField] public string Description { get; private set; }
+    [field: SerializeField] public int RequiredAmount { get; private set; }
+    [field: SerializeField] public TaskEventChannelSO TaskCompletedEventChannel { get; private set; }
+    [field: SerializeField] public TaskEventChannelSO TaskProgressionEventChannel { get; private set; }
     
-    public int currentAmount { get; set; }
+    public TaskType TaskType { get; protected set; }
+    [field:SerializeField] public int currentAmount { get; set; }
 }
 
 public enum TaskType
