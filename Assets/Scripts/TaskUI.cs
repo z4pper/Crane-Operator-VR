@@ -12,7 +12,7 @@ public class TaskUI : MonoBehaviour
     [SerializeField] private GameObject taskTableEntry;
     [SerializeField] private int taskLimit;
 
-    private Dictionary<TaskDataBaseSO, GameObject> taskDataToTableEntry = new Dictionary<TaskDataBaseSO, GameObject>();
+    private Dictionary<Task, GameObject> taskToTableEntry = new Dictionary<Task, GameObject>();
 
     private void OnEnable()
     {
@@ -28,26 +28,26 @@ public class TaskUI : MonoBehaviour
         taskProgressionEventChannel.OnEventRaised -= UpdateTaskProgression;
     }
 
-    private void CreateTask(TaskDataBaseSO taskDataBase)
+    private void CreateTask(Task task)
     {
         var tableEntry = Instantiate(taskTableEntry, taskTable.transform, false);
-        taskDataToTableEntry.Add(taskDataBase, tableEntry);
+        taskToTableEntry.Add(task, tableEntry);
 
-        tableEntry.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = taskDataBase.Priority.ToString();
-        tableEntry.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = taskDataBase.Description;
-        tableEntry.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"{taskDataBase.currentAmount}/{taskDataBase.RequiredAmount}";
+        tableEntry.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = task.TaskDataUnloading.Priority.ToString();
+        tableEntry.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = task.TaskDataUnloading.Description;
+        tableEntry.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"{task.CurrentTaskGoalAmount}/{task.TaskDataUnloading.RequiredAmount}";
     }
 
-    private void RemoveTask(TaskDataBaseSO taskDataBaseSo)
+    private void RemoveTask(Task task)
     {
-        var tableEntry = taskDataToTableEntry[taskDataBaseSo];
-        taskDataToTableEntry.Remove(taskDataBaseSo);
+        var tableEntry = taskToTableEntry[task];
+        taskToTableEntry.Remove(task);
         Destroy(tableEntry);
     }
 
-    private void UpdateTaskProgression(TaskDataBaseSO taskDataBase)
+    private void UpdateTaskProgression(Task task)
     {
-        var tableEntry = taskDataToTableEntry[taskDataBase];
-        tableEntry.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"{taskDataBase.currentAmount}/{taskDataBase.RequiredAmount}";
+        var tableEntry = taskToTableEntry[task];
+        tableEntry.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"{task.CurrentTaskGoalAmount}/{task.TaskDataUnloading.RequiredAmount}";
     }
 }

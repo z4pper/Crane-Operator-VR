@@ -8,7 +8,7 @@ public class TaskManager : MonoBehaviour
     [SerializeField] private TaskEventChannelSO taskCreatedEventChannel;
     [SerializeField] private TaskEventChannelSO taskCompletedEventChannel;
 
-    private Dictionary<TaskDataBaseSO, TaskGoal> taskDataToTaskGoal = new Dictionary<TaskDataBaseSO, TaskGoal>();
+    private List<Task> _currentTasks = new List<Task>();
 
     private void OnEnable()
     {
@@ -33,16 +33,16 @@ public class TaskManager : MonoBehaviour
             case TaskType.Unload:
             {
                 var newTask = new UnloadingTask(taskData);
-                taskDataToTaskGoal.Add(taskData, newTask);
-                taskCreatedEventChannel.RaiseEvent(taskData);
+                _currentTasks.Add(newTask);
+                taskCreatedEventChannel.RaiseEvent(newTask);
                 newTask.StartTask();
                 break;
             }
         }
     }
 
-    private void RemoveTask(TaskDataBaseSO taskDataBase)
+    private void RemoveTask(Task task)
     {
-        taskDataToTaskGoal.Remove(taskDataBase);
+        _currentTasks.Remove(task);
     }
 }

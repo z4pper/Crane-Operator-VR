@@ -9,7 +9,6 @@ public abstract class TaskDataBaseSO : ScriptableObject
     [field: SerializeField] public TaskEventChannelSO TaskProgressionEventChannel { get; private set; }
     
     public TaskType TaskType { get; protected set; }
-    [field:SerializeField] public int currentAmount { get; set; }
 }
 
 public enum TaskType
