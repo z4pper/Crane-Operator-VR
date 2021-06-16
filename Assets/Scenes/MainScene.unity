@@ -2049,7 +2049,7 @@ MonoBehaviour:
   taskCompletedEventChannel: {fileID: 11400000, guid: d5594e6ffc9f4f34fbbbb1086febf497, type: 2}
   taskProgressionEventChannel: {fileID: 11400000, guid: d1e018734e0e5ec48a27e6eeec24ec1b, type: 2}
   taskTable: {fileID: 617645374}
-  taskTableEntry: {fileID: 7013587547483190141, guid: 3d662a854b0303740b17c987d092235d, type: 3}
+  taskTableEntryPrefab: {fileID: 7013587547483190141, guid: 3d662a854b0303740b17c987d092235d, type: 3}
   taskLimit: 7
 --- !u!1001 &201207853
 PrefabInstance:

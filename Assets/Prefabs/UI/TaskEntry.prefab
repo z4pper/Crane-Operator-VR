@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7013587547483190137}
   - component: {fileID: 7013587547483190142}
   - component: {fileID: 7013587547483190143}
+  - component: {fileID: 5624573713411466583}
   m_Layer: 0
   m_Name: TaskEntry
   m_TagString: Untagged
@@ -105,6 +106,21 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &5624573713411466583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7013587547483190141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc9153e320535ef41b7ce9c4208c62b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Priority>k__BackingField: {fileID: 7013587548629974909}
+  <Description>k__BackingField: {fileID: 7013587549411944724}
+  <Progress>k__BackingField: {fileID: 7013587549077760657}
 --- !u!1 &7013587548629974883
 GameObject:
   m_ObjectHideFlags: 0
