@@ -11,7 +11,7 @@ public class VehicleController : MonoBehaviour
     
     private void OnTriggerExit(Collider other)
     {
-        var cargo = other.GetComponent<Hookable>();
+        var cargo = other.GetComponent<HookableBase>();
         if (cargo != null)
         {
             var isTaskObject = false;

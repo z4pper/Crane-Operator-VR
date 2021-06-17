@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5718244098923822858}
   - component: {fileID: 5718244098925717345}
   - component: {fileID: 5718244098925717350}
-  - component: {fileID: 5718244098925717351}
+  - component: {fileID: -5907047996787728329}
   m_Layer: 0
   m_Name: Container_Green_01
   m_TagString: Untagged
@@ -113,7 +113,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.6037798, y: 1.3424892, z: 1.469619}
   m_Center: {x: -6.0310056e-17, y: -0.00033614182, z: 0.72719496}
---- !u!114 &5718244098925717351
+--- !u!114 &-5907047996787728329
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,6 +122,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5718244098925748682}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f5c26748042e7d40ac2007e9d61fe46, type: 3}
+  m_Script: {fileID: 11500000, guid: 2460db51348740f08e92d5d2080c73be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

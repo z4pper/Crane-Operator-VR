@@ -50,6 +50,6 @@ public class TaskUI : MonoBehaviour
     private void UpdateTaskProgression(Task task)
     {
         var tableEntry = taskToTableEntry[task];
-        tableEntry.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"{task.CurrentTaskGoalAmount}/{task.TaskDataUnloading.RequiredAmount}";
+        tableEntry.GetComponent<TaskTableEntry>().Progress.text = $"{task.CurrentTaskGoalAmount}/{task.TaskDataUnloading.RequiredAmount}";
     }
 }

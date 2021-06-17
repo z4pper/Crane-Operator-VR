@@ -1,4 +1,5 @@
-﻿using UnityEngine.AI;
+﻿using UnityEngine;
+using UnityEngine.AI;
 
 public class UnloadingTask : Task
 {
@@ -18,12 +19,18 @@ public class UnloadingTask : Task
         }
     }
 
+    private void FinishTask()
+    {
+        _vehicleController.GetComponent<NavMeshAgent>().destination = TaskDataUnloading.DespawnPosition.position;
+    }
+
     public override void IncreaseCurrentAmount()
     {
         CurrentTaskGoalAmount++;
         TaskDataUnloading.TaskProgressionEventChannel.RaiseEvent(this);
         if (CurrentTaskGoalAmount >= TaskDataUnloading.RequiredAmount)
         {
+            FinishTask();
             TaskDataUnloading.TaskCompletedEventChannel.RaiseEvent(this);
         }
     }
@@ -33,8 +40,7 @@ public class UnloadingTask : Task
         TaskDataUnloading.InstantiateVehicle();
         _vehicleController = TaskDataUnloading.Vehicle.GetComponent<VehicleController>();
 
-        var vehicle = TaskDataUnloading.Vehicle;
-        var navAgent = vehicle.GetComponent<NavMeshAgent>();
+        var navAgent = TaskDataUnloading.Vehicle.GetComponentInChildren<NavMeshAgent>();
         navAgent.enabled = true;
         navAgent.destination = TaskDataUnloading.UnloadTargetPosition.position;
     }
