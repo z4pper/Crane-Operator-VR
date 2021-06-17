@@ -7,8 +7,6 @@ public abstract class TaskDataBaseSO : ScriptableObject
     [field: SerializeField] public int RequiredAmount { get; private set; }
     [field: SerializeField] public TaskEventChannelSO TaskCompletedEventChannel { get; private set; }
     [field: SerializeField] public TaskEventChannelSO TaskProgressionEventChannel { get; private set; }
-    
-    public TaskType TaskType { get; protected set; }
 }
 
 public enum TaskType

@@ -9,7 +9,7 @@ public class TaskDataUnloadingSO : TaskDataBaseSO
     
     [SerializeField]private GameObject vehicle;
 
-    public GameObject Vehicle { get; set; }
+    public GameObject Vehicle { get; private set; }
 
     public void InstantiateVehicle()
     {

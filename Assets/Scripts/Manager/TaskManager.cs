@@ -28,11 +28,11 @@ public class TaskManager : MonoBehaviour
     private void CreateTask()
     {
         var taskData = possibleTasks[Random.Range(0, possibleTasks.Count)];
-        switch (taskData.TaskType) 
+        switch (taskData) 
         {
-            case TaskType.Unload:
+            case TaskDataUnloadingSO unloadingTaskData:
             {
-                var newTask = new UnloadingTask(taskData);
+                var newTask = new UnloadingTask(unloadingTaskData);
                 _currentTasks.Add(newTask);
                 taskCreatedEventChannel.RaiseEvent(newTask);
                 newTask.StartTask();

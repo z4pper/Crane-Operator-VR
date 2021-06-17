@@ -4,9 +4,9 @@ public class UnloadingTask : Task
 {
     private VehicleController _vehicleController;
 
-    public UnloadingTask(TaskDataBaseSO taskData)
+    public UnloadingTask(TaskDataUnloadingSO taskData)
     {
-        TaskDataUnloading = (TaskDataUnloadingSO) taskData;
+        TaskDataUnloading = taskData;
         TaskDataUnloading.CargoUnloadedEventChannel.OnCargoUnload += OnCargoUnloadedUnloaded;
     }
 
