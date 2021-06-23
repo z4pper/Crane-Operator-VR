@@ -18,7 +18,6 @@ public class Crane : MonoBehaviour
 
     private void Update()
     {
-        OVRInput.Update();
         var primaryThumbX = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick).x;
         var primaryThumbY = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick).y;
         var secondaryThumbY = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick).y;
@@ -37,6 +36,8 @@ public class Crane : MonoBehaviour
         {
             MoveHook(secondaryThumbY);
         }
+        
+        OVRInput.Update();
     }
     
     private void RotateCrane(float speed)

@@ -1,11 +1,11 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-public class MagnetPlateHook : HookBase
+public class SimpleHook : HookBase
 {
     private void Update()
     {
         if (!IsHookEquipt) return;
-        
+
         if (IsHookActive && HookableSlot == null)
         {
             CheckForHookableObject();
@@ -20,7 +20,7 @@ public class MagnetPlateHook : HookBase
         RaycastHit hit;
         if (!Physics.Raycast(transform.position, Vector3.down, out hit, maxAttachToObjectDistance)) return;
         
-        var hookable = hit.collider.GetComponent<MagnetPlateHookable>();
+        var hookable = hit.collider.GetComponent<SimpleHookable>();
 
         if (hookable != null)
         {
