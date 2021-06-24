@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using Oculus.Platform;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class UnloadingTask : Task
 {
@@ -8,15 +10,28 @@ public class UnloadingTask : Task
     public UnloadingTask(TaskDataUnloadingSO taskData)
     {
         TaskDataUnloading = taskData;
-        TaskDataUnloading.CargoUnloadedEventChannel.OnCargoUnload += OnCargoUnloadedUnloaded;
+        TaskDataUnloading.StockZone = (StockZone) Random.Range(0, Enum.GetValues(typeof(StockZone)).Length);
+        
+        ConfigureDescription();
+        //TaskDataUnloading.CargoUnloadedEventChannel.OnCargoUnload += OnCargoUnloadedUnloaded;
+        TaskDataUnloading.ContainerStockEventChannel.OnContainerStockEnter += OnCargoEnterContainerStock;
+        TaskDataUnloading.ContainerStockEventChannel.OnContainerStockExit += OnCargoExitContainerStock;
     }
 
-    private void OnCargoUnloadedUnloaded(VehicleController vehicleController)
+    private void OnCargoEnterContainerStock(ContainerStockController stockController, HookableBase hookable)
     {
-        if (vehicleController == this._vehicleController)
+        if (stockController.StockZone == TaskDataUnloading.StockZone && _vehicleController.CargoList.Contains(hookable))
         {
             IncreaseCurrentAmount();
         }
+    }
+
+    private void OnCargoExitContainerStock(ContainerStockController stockController, HookableBase hookable)
+    {
+        if (stockController.StockZone == TaskDataUnloading.StockZone && _vehicleController.CargoList.Contains(hookable))
+        {
+            CurrentTaskGoalAmount--;
+        } 
     }
 
     private void FinishTask()
@@ -43,5 +58,11 @@ public class UnloadingTask : Task
         var navAgent = TaskDataUnloading.Vehicle.GetComponentInChildren<NavMeshAgent>();
         navAgent.enabled = true;
         navAgent.destination = TaskDataUnloading.UnloadTargetPosition.position;
+    }
+
+    private void ConfigureDescription()
+    {
+        TaskDataUnloading.Description = TaskDataUnloading.Description.Replace("{StockZone}",
+            Enum.GetName(typeof(StockZone), TaskDataUnloading.StockZone));
     }
 }

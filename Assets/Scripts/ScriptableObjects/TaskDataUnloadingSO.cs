@@ -7,10 +7,12 @@ public class TaskDataUnloadingSO : TaskDataBaseSO
     [field: SerializeField] public Transform UnloadTargetPosition { get; private set; }
     [field: SerializeField] public Transform DespawnPosition { get; private set; }
     [field: SerializeField] public CargoEventChannelSO CargoUnloadedEventChannel { get; private set; }
-    
+    [field: SerializeField] public ContainerStockEventChannelSO ContainerStockEventChannel { get; private set; }
+
     [SerializeField]private GameObject vehicle;
 
     public GameObject Vehicle { get; private set; }
+    public StockZone StockZone { get; set; }
 
     public void InstantiateVehicle()
     {

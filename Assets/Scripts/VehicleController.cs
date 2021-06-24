@@ -8,7 +8,17 @@ public class VehicleController : MonoBehaviour
     [SerializeField] private List<CargoSlot> cargoSlots;
     [SerializeField] private float cargoLerpSeconds;
     [SerializeField] private CargoEventChannelSO cargoEventChannel;
-    
+
+    public List<HookableBase> CargoList { get; private set; } = new List<HookableBase>();
+
+    private void Start()
+    {
+        cargoSlots.ForEach(slot =>
+        {
+            CargoList.Add(slot.GetCargoSlot().GetComponent<HookableBase>());
+        });
+    }
+
     private void OnTriggerExit(Collider other)
     {
         var cargo = other.GetComponent<HookableBase>();
@@ -27,7 +37,7 @@ public class VehicleController : MonoBehaviour
             if (!isTaskObject) return;
 
             RemoveCargoFromSlot(cargo.gameObject);
-            cargoEventChannel.RaiseCargoUnloadedEvent(this);
+            //cargoEventChannel.RaiseCargoUnloadedEvent(this);
         }
     }
 
