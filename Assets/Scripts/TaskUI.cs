@@ -12,7 +12,7 @@ public class TaskUI : MonoBehaviour
     [SerializeField] private GameObject taskTableEntryPrefab;
     [SerializeField] private int taskLimit;
 
-    private Dictionary<Task, GameObject> taskToTableEntry = new Dictionary<Task, GameObject>();
+    private Dictionary<InGameTask, GameObject> taskToTableEntry = new Dictionary<InGameTask, GameObject>();
 
     private void OnEnable()
     {
@@ -28,28 +28,28 @@ public class TaskUI : MonoBehaviour
         taskProgressionEventChannel.OnEventRaised -= UpdateTaskProgression;
     }
 
-    private void CreateTask(Task task)
+    private void CreateTask(InGameTask inGameTask)
     {
         var tableEntry = Instantiate(taskTableEntryPrefab, taskTable.transform, false);
-        taskToTableEntry.Add(task, tableEntry);
+        taskToTableEntry.Add(inGameTask, tableEntry);
 
         var taskTableEntry = tableEntry.GetComponent<TaskTableEntry>();
 
-        taskTableEntry.Priority.text = task.TaskDataUnloading.Priority.ToString();
-        taskTableEntry.Description.text = task.TaskDataUnloading.Description;
-        taskTableEntry.Progress.text = $"{task.CurrentTaskGoalAmount}/{task.TaskDataUnloading.RequiredAmount}";
+        taskTableEntry.Priority.text = inGameTask.TaskData.Priority.ToString();
+        taskTableEntry.Description.text = inGameTask.TaskData.Description;
+        taskTableEntry.Progress.text = $"{inGameTask.CurrentTaskGoalAmount}/{inGameTask.TaskData.RequiredAmount}";
     }
 
-    private void RemoveTask(Task task)
+    private void RemoveTask(InGameTask inGameTask)
     {
-        var tableEntry = taskToTableEntry[task];
-        taskToTableEntry.Remove(task);
+        var tableEntry = taskToTableEntry[inGameTask];
+        taskToTableEntry.Remove(inGameTask);
         Destroy(tableEntry);
     }
 
-    private void UpdateTaskProgression(Task task)
+    private void UpdateTaskProgression(InGameTask inGameTask)
     {
-        var tableEntry = taskToTableEntry[task];
-        tableEntry.GetComponent<TaskTableEntry>().Progress.text = $"{task.CurrentTaskGoalAmount}/{task.TaskDataUnloading.RequiredAmount}";
+        var tableEntry = taskToTableEntry[inGameTask];
+        tableEntry.GetComponent<TaskTableEntry>().Progress.text = $"{inGameTask.CurrentTaskGoalAmount}/{inGameTask.TaskData.RequiredAmount}";
     }
 }

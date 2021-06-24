@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -8,7 +9,7 @@ public class TaskManager : MonoBehaviour
     [SerializeField] private TaskEventChannelSO taskCreatedEventChannel;
     [SerializeField] private TaskEventChannelSO taskCompletedEventChannel;
 
-    private List<Task> _currentTasks = new List<Task>();
+    private List<InGameTask> _currentTasks = new List<InGameTask>();
 
     private void OnEnable()
     {
@@ -22,7 +23,7 @@ public class TaskManager : MonoBehaviour
 
     private void Start()
     {
-        CreateTask();
+        StartCoroutine(wait());
     }
 
     private void CreateTask()
@@ -32,17 +33,31 @@ public class TaskManager : MonoBehaviour
         {
             case TaskDataUnloadingSO unloadingTaskData:
             {
-                var newTask = new UnloadingTask(unloadingTaskData);
+                var newTask = new UnloadingInGameTask(unloadingTaskData);
                 _currentTasks.Add(newTask);
-                taskCreatedEventChannel.RaiseEvent(newTask);
                 newTask.StartTask();
+                taskCreatedEventChannel.RaiseEvent(newTask);
+                break;
+            }
+            case TaskDataLoadingSO loadingTaskData:
+            {
+                var newTask = new LoadingInGameTask(loadingTaskData);
+                _currentTasks.Add(newTask);
+                newTask.StartTask();
+                taskCreatedEventChannel.RaiseEvent(newTask);
                 break;
             }
         }
     }
 
-    private void RemoveTask(Task task)
+    private IEnumerator wait()
     {
-        _currentTasks.Remove(task);
+        yield return new WaitForSeconds(1f);
+        CreateTask();
+    }
+
+    private void RemoveTask(InGameTask inGameTask)
+    {
+        _currentTasks.Remove(inGameTask);
     }
 }

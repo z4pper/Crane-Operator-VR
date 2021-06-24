@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ContainerStockController : MonoBehaviour
@@ -7,6 +8,16 @@ public class ContainerStockController : MonoBehaviour
     [field: SerializeField] public StockZone StockZone { get; private set; }
     private List<HookableBase> containerStockList = new List<HookableBase>();
 
+
+    private void OnEnable()
+    {
+        containerStockEventChannelSo.OnContainerStockRequested += OnContainerStockRequest;
+    }
+
+    private void OnDisable()
+    {
+        containerStockEventChannelSo.OnContainerStockRequested -= OnContainerStockRequest;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -25,6 +36,18 @@ public class ContainerStockController : MonoBehaviour
         {
             containerStockList.Remove(hookable);
             containerStockEventChannelSo.RaiseContainerStockExitEvent(this, hookable);
+        }
+    }
+
+    private void OnContainerStockRequest(StockZone stockZone, int amount)
+    {
+        if (StockZone == stockZone)
+        {
+            // TODO: Randomize
+            List<HookableBase> cargoList = new List<HookableBase>();
+            cargoList = containerStockList.Take(amount).ToList();
+            
+            containerStockEventChannelSo.RaiseContainerStockDeliveredEvent(cargoList);
         }
     }
 }

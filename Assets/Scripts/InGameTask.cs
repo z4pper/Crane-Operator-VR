@@ -1,7 +1,7 @@
 ﻿
-public abstract class Task
+public abstract class InGameTask
 {
-    public TaskDataUnloadingSO TaskDataUnloading { get; protected set; }
+    public TaskDataBaseSO TaskData { get; protected set; }
     public float CurrentTaskGoalAmount { get; protected set; }
     public abstract void IncreaseCurrentAmount();
     public abstract void StartTask();
