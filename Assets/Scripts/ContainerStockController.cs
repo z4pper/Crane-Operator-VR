@@ -6,7 +6,7 @@ public class ContainerStockController : MonoBehaviour
 {
     [SerializeField] private ContainerStockEventChannelSO containerStockEventChannelSo;
     [field: SerializeField] public StockZone StockZone { get; private set; }
-    private List<HookableBase> containerStockList = new List<HookableBase>();
+    [SerializeField] private List<HookableBase> containerStockList = new List<HookableBase>();
 
 
     private void OnEnable()
@@ -43,9 +43,7 @@ public class ContainerStockController : MonoBehaviour
     {
         if (StockZone == stockZone)
         {
-            // TODO: Randomize
-            List<HookableBase> cargoList = new List<HookableBase>();
-            cargoList = containerStockList.Take(amount).ToList();
+            var cargoList = containerStockList.OrderBy(cargo => Random.value).Take(amount).ToList();
             
             containerStockEventChannelSo.RaiseContainerStockDeliveredEvent(cargoList);
         }
