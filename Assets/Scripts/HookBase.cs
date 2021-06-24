@@ -18,6 +18,7 @@ public abstract class HookBase : MonoBehaviour
         var rigidbody = hookableBase.GetComponent<Rigidbody>();
         rigidbody.useGravity = false;
         rigidbody.isKinematic = true;
+        hookableBase.IsHooked = true;
         hookableBase.transform.SetParent(this.transform);
     }
 
@@ -27,6 +28,7 @@ public abstract class HookBase : MonoBehaviour
         var rigidbody = HookableSlot.GetComponent<Rigidbody>();
         rigidbody.useGravity = true;
         rigidbody.isKinematic = false;
+        HookableSlot.IsHooked = false;
         HookableSlot = null;
     }
     

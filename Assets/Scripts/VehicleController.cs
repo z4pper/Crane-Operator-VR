@@ -68,9 +68,7 @@ public class VehicleController : MonoBehaviour
         {
             if (!CargoList.Contains(hookable) && !hookable.IsHooked)
             {
-                var slot = CargoSlots.FirstOrDefault(cargoSlot => cargoSlot.Cargo == null);
-    
-                StartCoroutine(PositionCargoInSlot(hookable, slot));
+                StartCoroutine(PositionCargoInSlot(hookable));
             }
         }
     }
@@ -83,33 +81,33 @@ public class VehicleController : MonoBehaviour
         });
     }
     
-    public void AttachCargoToSlot(HookableBase cargo)
+    private CargoSlot AttachCargoToSlot(HookableBase cargo)
     {
-        CargoSlots.ForEach(slot =>
-        {
-            if (slot.Cargo == null)
-            {
-                slot.Cargo = cargo;
-                
-                return;
-            }
-        });
+        var slot = CargoSlots.FirstOrDefault(cargoSlot => cargoSlot.Cargo == null);
+        slot.Cargo = cargo;
+        CargoList.Add(cargo);
+
+        cargo.GetComponent<Rigidbody>().isKinematic = true;
+        cargo.transform.SetParent(transform);
+
+        return slot;
     }
     
-    private IEnumerator PositionCargoInSlot(HookableBase cargo, CargoSlot cargoSlot)
+    private IEnumerator PositionCargoInSlot(HookableBase cargo)
     {
-        CargoList.Add(cargo);
-        cargoSlot.Cargo = cargo;
+        var cargoSlot = AttachCargoToSlot(cargo);
+        
         var elapsedTime = 0f;
-        cargo.transform.SetParent(transform);
         var startPos = cargo.transform.localPosition;
+        var startRotation = cargo.transform.localRotation;
         var slotPosition = cargoSlot.SlotPosition;
-        var distance = Vector3.Distance(startPos, slotPosition);
-        while (distance > 0.1f)
+        var slotRotation = Quaternion.Euler(cargoSlot.SlotRotation);
+        
+        while (elapsedTime < cargoLerpSeconds)
         {
             elapsedTime += Time.deltaTime;
             cargo.transform.localPosition = Vector3.Lerp(startPos, slotPosition, elapsedTime / cargoLerpSeconds);
-            distance = Vector3.Distance(startPos, slotPosition);
+            cargo.transform.localRotation = Quaternion.Lerp(startRotation, slotRotation, elapsedTime / cargoLerpSeconds);
             yield return null;
         }
         cargoEventChannel.RaiseCargoLoadedEvent(this);
@@ -119,11 +117,4 @@ public class VehicleController : MonoBehaviour
     {
         TargetedCargo = cargoList;
     }
-}
-
-[Serializable]
-public struct CargoSlot
-{
-    [field: SerializeField] public HookableBase Cargo { get; set; }
-    [field: SerializeField] public Vector3 SlotPosition { get; set; }
 }

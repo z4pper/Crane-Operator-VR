@@ -458,9 +458,11 @@ MonoBehaviour:
   <CargoSlots>k__BackingField:
   - <Cargo>k__BackingField: {fileID: 0}
     <SlotPosition>k__BackingField: {x: 0, y: 0.711, z: 0.66212}
+    <SlotRotation>k__BackingField: {x: -90, y: 0, z: 90}
   - <Cargo>k__BackingField: {fileID: 0}
     <SlotPosition>k__BackingField: {x: 0, y: 0.711, z: -2.93288}
-  cargoLerpSeconds: 5
+    <SlotRotation>k__BackingField: {x: -90, y: 0, z: 90}
+  cargoLerpSeconds: 3
   cargoEventChannel: {fileID: 11400000, guid: 926076bf436f2064a8aeaa9fbda15ce2, type: 2}
 --- !u!65 &6267005974977473281
 BoxCollider:
