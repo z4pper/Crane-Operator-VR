@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2426409816809988543}
+  - component: {fileID: 90881702456621518}
+  - component: {fileID: 6004051691596995364}
   m_Layer: 0
   m_Name: DeliveryTargetPosition_01
   m_TagString: Untagged
@@ -30,3 +32,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &90881702456621518
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2426409816809988542}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 4.1217833, z: 2.8524895}
+  m_Center: {x: 0, y: 2.0411663, z: 0.27444267}
+--- !u!114 &6004051691596995364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2426409816809988542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55e50eb2b36a4f56a526c82eb0ad7e07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <VehicleTargetPosition>k__BackingField: 2

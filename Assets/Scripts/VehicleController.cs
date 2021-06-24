@@ -10,6 +10,12 @@ public class VehicleController : MonoBehaviour
     [SerializeField] private CargoEventChannelSO cargoEventChannel;
 
     public List<HookableBase> CargoList { get; private set; } = new List<HookableBase>();
+    private AudioSource _audioSource;
+
+    private void Awake()
+    {
+        _audioSource = GetComponent<AudioSource>();
+    }
 
     private void Start()
     {
@@ -38,6 +44,15 @@ public class VehicleController : MonoBehaviour
 
             RemoveCargoFromSlot(cargo.gameObject);
             //cargoEventChannel.RaiseCargoUnloadedEvent(this);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        var position = other.gameObject.GetComponent<VehiclePosition>();
+        if (position != null && position.VehicleTargetPosition == VehicleTargetPosition.Delivery)
+        {
+            _audioSource.PlayOneShot(_audioSource.clip);
         }
     }
 

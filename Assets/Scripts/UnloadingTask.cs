@@ -1,5 +1,4 @@
 ﻿using System;
-using Oculus.Platform;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
@@ -13,9 +12,9 @@ public class UnloadingTask : Task
         TaskDataUnloading.StockZone = (StockZone) Random.Range(0, Enum.GetValues(typeof(StockZone)).Length);
         
         ConfigureDescription();
-        //TaskDataUnloading.CargoUnloadedEventChannel.OnCargoUnload += OnCargoUnloadedUnloaded;
         TaskDataUnloading.ContainerStockEventChannel.OnContainerStockEnter += OnCargoEnterContainerStock;
         TaskDataUnloading.ContainerStockEventChannel.OnContainerStockExit += OnCargoExitContainerStock;
+        TaskDataUnloading.SignalToTruckEventChannel.OnEventRaised += FinishTask;
     }
 
     private void OnCargoEnterContainerStock(ContainerStockController stockController, HookableBase hookable)
@@ -36,18 +35,17 @@ public class UnloadingTask : Task
 
     private void FinishTask()
     {
-        _vehicleController.GetComponent<NavMeshAgent>().destination = TaskDataUnloading.DespawnPosition.position;
+        if (CurrentTaskGoalAmount >= TaskDataUnloading.RequiredAmount)
+        {
+            TaskDataUnloading.TaskCompletedEventChannel.RaiseEvent(this);
+            _vehicleController.GetComponent<NavMeshAgent>().destination = TaskDataUnloading.DespawnPosition.position;
+        }
     }
 
     public override void IncreaseCurrentAmount()
     {
         CurrentTaskGoalAmount++;
         TaskDataUnloading.TaskProgressionEventChannel.RaiseEvent(this);
-        if (CurrentTaskGoalAmount >= TaskDataUnloading.RequiredAmount)
-        {
-            FinishTask();
-            TaskDataUnloading.TaskCompletedEventChannel.RaiseEvent(this);
-        }
     }
 
     public override void StartTask()
