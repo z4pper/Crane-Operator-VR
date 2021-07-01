@@ -15,7 +15,6 @@ public class SignalToTruck : MonoBehaviour
     {
         if(OVRInput.GetDown(OVRInput.Button.Three))
         {
-            Debug.Log("Test");
             _audioSource.PlayOneShot(_audioSource.clip);
             signalToTruckEventChannel.RaiseEvent();
         }
