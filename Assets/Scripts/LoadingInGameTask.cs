@@ -57,13 +57,7 @@ public class LoadingInGameTask : InGameTask
     {
         _taskDataLoadingSo.CargoList = requestedCargo;
         _vehicleController.SetTargetCargoList(requestedCargo);
-        requestedCargo.ForEach(cargo =>
-        {
-            var outline = cargo.gameObject.AddComponent<Outline>();
-            outline.OutlineMode = Outline.Mode.OutlineAll;
-            outline.OutlineColor = Color.red;
-            outline.OutlineWidth = 5f;
-        });
+        requestedCargo.ForEach(cargo => cargo.MarkOutline(Color.red));
     }
 
     private void OnCargoLoaded(VehicleController vehicleController)
