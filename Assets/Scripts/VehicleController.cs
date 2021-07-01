@@ -60,11 +60,17 @@ public class VehicleController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         var position = other.gameObject.GetComponent<VehiclePosition>();
-        if (position != null && position.VehicleTargetPosition == VehicleTargetPosition.Delivery && !_isAtDestination)
+        if (position == null) return;
+        
+        if (position.VehicleTargetPosition == VehicleTargetPosition.Delivery && !_isAtDestination)
         {
             _isAtDestination = true;
             vehicleEventChannel.RaiseVehicleArrivedAtDeliveryZoneEvent(this);
             _audioSource.PlayOneShot(_audioSource.clip);
+        }
+        else if (position.VehicleTargetPosition == VehicleTargetPosition.End)
+        {
+            Destroy(this.gameObject);
         }
     }
     
