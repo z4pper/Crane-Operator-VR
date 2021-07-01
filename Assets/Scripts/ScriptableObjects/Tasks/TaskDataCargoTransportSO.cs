@@ -13,6 +13,7 @@ public abstract class TaskDataCargoTransportSO : TaskDataBaseSO
             [SerializeField]private GameObject vehicle;
         
             public GameObject Vehicle { get; private set; }
+            public Color OutlineColor { get; set; }
         
             public void InstantiateVehicle()
             {

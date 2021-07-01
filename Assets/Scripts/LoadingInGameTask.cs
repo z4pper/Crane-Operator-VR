@@ -27,6 +27,8 @@ public class LoadingInGameTask : InGameTask
             TaskData.TaskCompletedEventChannel.RaiseEvent(this);
             _vehicleController.GetComponent<NavMeshAgent>().destination = _taskDataLoadingSo.DespawnPosition.position;
             
+            OutlineColorHandler.ReturnOutlineColor(_taskDataLoadingSo.OutlineColor);
+            
             _taskDataLoadingSo.SignalToTruckEventChannel.OnEventRaised -= FinishTask;
             _taskDataLoadingSo.ContainerStockEventChannel.OnContainerStockDelivered -= RegisterCargo;
             _taskDataLoadingSo.CargoEventChannel.OnCargoLoad -= OnCargoLoaded;
@@ -61,7 +63,9 @@ public class LoadingInGameTask : InGameTask
     {
         _taskDataLoadingSo.CargoList = requestedCargo;
         _vehicleController.SetTargetCargoList(requestedCargo);
-        requestedCargo.ForEach(cargo => cargo.MarkOutline(Color.red));
+        
+        _taskDataLoadingSo.OutlineColor = OutlineColorHandler.GetOutlineColor();
+        requestedCargo.ForEach(cargo => cargo.MarkOutline(_taskDataLoadingSo.OutlineColor));
     }
 
     private void OnCargoLoaded(VehicleController vehicleController)
