@@ -12370,7 +12370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   possibleTasks:
-  - {fileID: 11400000, guid: 95887a95084183d4a9d73cdb4f0080df, type: 2}
+  - {fileID: 11400000, guid: abee85e83628fe64e81e906cc9cae75b, type: 2}
   taskCreatedEventChannel: {fileID: 11400000, guid: 5b2a479f710cf704aba168113cc59efb, type: 2}
   taskCompletedEventChannel: {fileID: 11400000, guid: d5594e6ffc9f4f34fbbbb1086febf497, type: 2}
 --- !u!1001 &1893000312

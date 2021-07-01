@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
@@ -15,7 +14,7 @@ public class LoadingInGameTask : InGameTask
         _taskDataLoadingSo = taskData;
         
         taskData.SignalToTruckEventChannel.OnEventRaised += FinishTask;
-        taskData.VehicleEventChannel.OnVehicleArrivedAtDeliveryZone += ChooseCargo;
+        taskData.VehicleEventChannel.OnVehicleArrivedAtDeliveryZone += OnDeliveryArrived;
         taskData.ContainerStockEventChannel.OnContainerStockDelivered += RegisterCargo;
         taskData.CargoEventChannel.OnCargoLoad += OnCargoLoaded;
     }
@@ -30,6 +29,7 @@ public class LoadingInGameTask : InGameTask
             OutlineColorHandler.ReturnOutlineColor(_taskDataLoadingSo.OutlineColor);
             
             _taskDataLoadingSo.SignalToTruckEventChannel.OnEventRaised -= FinishTask;
+            _taskDataLoadingSo.VehicleEventChannel.OnVehicleArrivedAtDeliveryZone -= OnDeliveryArrived;
             _taskDataLoadingSo.ContainerStockEventChannel.OnContainerStockDelivered -= RegisterCargo;
             _taskDataLoadingSo.CargoEventChannel.OnCargoLoad -= OnCargoLoaded;
         }
@@ -51,7 +51,7 @@ public class LoadingInGameTask : InGameTask
         navAgent.destination = _taskDataLoadingSo.UnloadTargetPosition.position;
     }
     
-    private void ChooseCargo(VehicleController vehicleController)
+    private void OnDeliveryArrived(VehicleController vehicleController)
     {
         var numOfCargo = Random.Range(1, _vehicleController.CargoSlots.Count + 1);
         var randomZone = (StockZone) Random.Range(0, Enum.GetValues(typeof(StockZone)).Length);

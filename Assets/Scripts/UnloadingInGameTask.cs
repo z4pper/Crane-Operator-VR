@@ -10,48 +10,20 @@ public class UnloadingInGameTask : InGameTask
     public UnloadingInGameTask(TaskDataUnloadingSO taskData)
     {
         TaskData = taskData;
-        _taskDataUnloadingSo = taskData;
         taskData.StockZone = (StockZone) Random.Range(0, Enum.GetValues(typeof(StockZone)).Length);
-        
+        _taskDataUnloadingSo = taskData;
+
         ConfigureDescription();
         taskData.ContainerStockEventChannel.OnContainerStockEnter += OnCargoEnterContainerStock;
         taskData.ContainerStockEventChannel.OnContainerStockExit += OnCargoExitContainerStock;
+        taskData.VehicleEventChannel.OnVehicleArrivedAtDeliveryZone += OnDeliveryArrived;
         taskData.SignalToTruckEventChannel.OnEventRaised += FinishTask;
     }
 
-    private void OnCargoEnterContainerStock(ContainerStockController stockController, HookableBase hookable)
+    private void ConfigureDescription()
     {
-        if (stockController.StockZone == _taskDataUnloadingSo.StockZone && _vehicleController.CargoList.Contains(hookable))
-        {
-            IncreaseCurrentAmount();
-        }
-    }
-
-    private void OnCargoExitContainerStock(ContainerStockController stockController, HookableBase hookable)
-    {
-        if (stockController.StockZone == _taskDataUnloadingSo.StockZone && _vehicleController.CargoList.Contains(hookable))
-        {
-            CurrentTaskGoalAmount--;
-        } 
-    }
-
-    private void FinishTask()
-    {
-        if (CurrentTaskGoalAmount >= TaskData.RequiredAmount)
-        {
-            TaskData.TaskCompletedEventChannel.RaiseEvent(this);
-            _vehicleController.GetComponent<NavMeshAgent>().destination = _taskDataUnloadingSo.DespawnPosition.position;
-            
-            _taskDataUnloadingSo.ContainerStockEventChannel.OnContainerStockEnter -= OnCargoEnterContainerStock;
-            _taskDataUnloadingSo.ContainerStockEventChannel.OnContainerStockExit -= OnCargoExitContainerStock;
-            _taskDataUnloadingSo.SignalToTruckEventChannel.OnEventRaised -= FinishTask;
-        }
-    }
-
-    public override void IncreaseCurrentAmount()
-    {
-        CurrentTaskGoalAmount++;
-        TaskData.TaskProgressionEventChannel.RaiseEvent(this);
+        TaskData.Description = TaskData.Description.Replace("{StockZone}",
+            Enum.GetName(typeof(StockZone), _taskDataUnloadingSo.StockZone));
     }
 
     public override void StartTask()
@@ -64,9 +36,52 @@ public class UnloadingInGameTask : InGameTask
         navAgent.destination = _taskDataUnloadingSo.UnloadTargetPosition.position;
     }
 
-    private void ConfigureDescription()
+    private void OnDeliveryArrived(VehicleController vehicleController)
     {
-        TaskData.Description = TaskData.Description.Replace("{StockZone}",
-            Enum.GetName(typeof(StockZone), _taskDataUnloadingSo.StockZone));
+        _taskDataUnloadingSo.OutlineColor = OutlineColorHandler.GetOutlineColor();
+        vehicleController.CargoList.ForEach(cargo => cargo.MarkOutline(_taskDataUnloadingSo.OutlineColor));
+    }
+
+    public override void IncreaseCurrentAmount()
+    {
+        CurrentTaskGoalAmount++;
+        TaskData.TaskProgressionEventChannel.RaiseEvent(this);
+    }
+
+    private void OnCargoEnterContainerStock(ContainerStockController stockController, HookableBase hookable)
+    {
+        if (stockController.StockZone == _taskDataUnloadingSo.StockZone &&
+            _vehicleController.CargoList.Contains(hookable))
+        {
+            hookable.UnmarkOutline();
+            IncreaseCurrentAmount();
+        }
+    }
+
+    private void OnCargoExitContainerStock(ContainerStockController stockController, HookableBase hookable)
+    {
+        if (stockController.StockZone == _taskDataUnloadingSo.StockZone &&
+            _vehicleController.CargoList.Contains(hookable))
+        {
+            hookable.MarkOutline(_taskDataUnloadingSo.OutlineColor);
+            CurrentTaskGoalAmount--;
+            TaskData.TaskProgressionEventChannel.RaiseEvent(this);
+        }
+    }
+
+    private void FinishTask()
+    {
+        if (CurrentTaskGoalAmount >= TaskData.RequiredAmount)
+        {
+            TaskData.TaskCompletedEventChannel.RaiseEvent(this);
+            _vehicleController.GetComponent<NavMeshAgent>().destination = _taskDataUnloadingSo.DespawnPosition.position;
+            
+            OutlineColorHandler.ReturnOutlineColor(_taskDataUnloadingSo.OutlineColor);
+
+            _taskDataUnloadingSo.ContainerStockEventChannel.OnContainerStockEnter -= OnCargoEnterContainerStock;
+            _taskDataUnloadingSo.ContainerStockEventChannel.OnContainerStockExit -= OnCargoExitContainerStock;
+            _taskDataUnloadingSo.VehicleEventChannel.OnVehicleArrivedAtDeliveryZone -= OnDeliveryArrived;
+            _taskDataUnloadingSo.SignalToTruckEventChannel.OnEventRaised -= FinishTask;
+        }
     }
 }
