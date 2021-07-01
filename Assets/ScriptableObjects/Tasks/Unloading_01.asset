@@ -22,4 +22,5 @@ MonoBehaviour:
   <DespawnPosition>k__BackingField: {fileID: 6685665254326486089, guid: 4cbcc5d332389be44a8331624c1316eb, type: 3}
   <ContainerStockEventChannel>k__BackingField: {fileID: 11400000, guid: f1ee0d41cb1817141aed9884a621ddec, type: 2}
   <SignalToTruckEventChannel>k__BackingField: {fileID: 11400000, guid: 7dd4fcea7640aa843b86236ab9ec2ba4, type: 2}
+  <VehicleEventChannel>k__BackingField: {fileID: 11400000, guid: 92c9ff523105d3d40ab829a6c40c5dee, type: 2}
   vehicle: {fileID: 879220738338410487, guid: 8837decb220570b44b496169ba2f9019, type: 3}

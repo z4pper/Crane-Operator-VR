@@ -15,6 +15,7 @@ public class LoadingInGameTask : InGameTask
         _taskDataLoadingSo = taskData;
         
         taskData.SignalToTruckEventChannel.OnEventRaised += FinishTask;
+        taskData.VehicleEventChannel.OnVehicleArrivedAtDeliveryZone += ChooseCargo;
         taskData.ContainerStockEventChannel.OnContainerStockDelivered += RegisterCargo;
         taskData.CargoEventChannel.OnCargoLoad += OnCargoLoaded;
     }
@@ -43,16 +44,19 @@ public class LoadingInGameTask : InGameTask
         _taskDataLoadingSo.InstantiateVehicle();
         _vehicleController = _taskDataLoadingSo.Vehicle.GetComponent<VehicleController>();
 
-        var numOfCargo = Random.Range(1, _vehicleController.CargoSlots.Count + 1);
-        var randomZone = (StockZone) Random.Range(0, Enum.GetValues(typeof(StockZone)).Length);
-        _taskDataLoadingSo.ContainerStockEventChannel.RaiseContainerStockRequestedEvent(randomZone, numOfCargo);
-        TaskData.RequiredAmount = numOfCargo;
-        
         var navAgent = _taskDataLoadingSo.Vehicle.GetComponentInChildren<NavMeshAgent>();
         navAgent.enabled = true;
         navAgent.destination = _taskDataLoadingSo.UnloadTargetPosition.position;
     }
-
+    
+    private void ChooseCargo(VehicleController vehicleController)
+    {
+        var numOfCargo = Random.Range(1, _vehicleController.CargoSlots.Count + 1);
+        var randomZone = (StockZone) Random.Range(0, Enum.GetValues(typeof(StockZone)).Length);
+        _taskDataLoadingSo.ContainerStockEventChannel.RaiseContainerStockRequestedEvent(randomZone, numOfCargo);
+        TaskData.RequiredAmount = numOfCargo;
+    }
+    
     private void RegisterCargo(List<HookableBase> requestedCargo)
     {
         _taskDataLoadingSo.CargoList = requestedCargo;

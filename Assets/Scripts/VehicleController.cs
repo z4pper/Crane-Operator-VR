@@ -9,10 +9,15 @@ public class VehicleController : MonoBehaviour
     [field: SerializeField] public List<CargoSlot> CargoSlots { get; set; }
     [SerializeField] private float cargoLerpSeconds;
     [SerializeField] private CargoEventChannelSO cargoEventChannel;
+    [SerializeField] private VehicleEventChannelSO vehicleEventChannel;
 
     public List<HookableBase> CargoList { get; } = new List<HookableBase>();
     public List<HookableBase> TargetedCargo { get; private set; } = new List<HookableBase>();
+    
     private AudioSource _audioSource;
+    // TODO: find better way
+    private bool _isAtDestination;
+    
 
     private void Awake()
     {
@@ -55,8 +60,10 @@ public class VehicleController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         var position = other.gameObject.GetComponent<VehiclePosition>();
-        if (position != null && position.VehicleTargetPosition == VehicleTargetPosition.Delivery)
+        if (position != null && position.VehicleTargetPosition == VehicleTargetPosition.Delivery && !_isAtDestination)
         {
+            _isAtDestination = true;
+            vehicleEventChannel.RaiseVehicleArrivedAtDeliveryZoneEvent(this);
             _audioSource.PlayOneShot(_audioSource.clip);
         }
     }
@@ -89,7 +96,7 @@ public class VehicleController : MonoBehaviour
 
         cargo.GetComponent<Rigidbody>().isKinematic = true;
         cargo.transform.SetParent(transform);
-
+        
         return slot;
     }
     
@@ -110,7 +117,10 @@ public class VehicleController : MonoBehaviour
             cargo.transform.localRotation = Quaternion.Lerp(startRotation, slotRotation, elapsedTime / cargoLerpSeconds);
             yield return null;
         }
+        
         cargoEventChannel.RaiseCargoLoadedEvent(this);
+        cargo.UnmarkOutline();
+        Destroy(cargo);
     }
 
     public void SetTargetCargoList(List<HookableBase> cargoList)

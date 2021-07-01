@@ -716,6 +716,7 @@ MonoBehaviour:
     <SlotRotation>k__BackingField: {x: -90, y: 0, z: 90}
   cargoLerpSeconds: 3
   cargoEventChannel: {fileID: 11400000, guid: 926076bf436f2064a8aeaa9fbda15ce2, type: 2}
+  vehicleEventChannel: {fileID: 11400000, guid: 92c9ff523105d3d40ab829a6c40c5dee, type: 2}
 --- !u!65 &6295094042124770089
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -840,7 +841,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
 --- !u!1 &893486059845124678
 GameObject:
   m_ObjectHideFlags: 0
