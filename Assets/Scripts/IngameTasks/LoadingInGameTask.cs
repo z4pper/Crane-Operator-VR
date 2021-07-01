@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
-public class LoadingInGameTask : InGameTask
+public class LoadingInGameTask : CargoTransportInGameTask
 {
     private VehicleController _vehicleController;
     private readonly TaskDataLoadingSO _taskDataLoadingSo;
@@ -19,7 +19,7 @@ public class LoadingInGameTask : InGameTask
         taskData.CargoEventChannel.OnCargoLoad += OnCargoLoaded;
     }
 
-    private void FinishTask()
+    protected override void FinishTask()
     {
         if (CurrentTaskGoalAmount >= TaskData.RequiredAmount)
         {
@@ -51,7 +51,7 @@ public class LoadingInGameTask : InGameTask
         navAgent.destination = _taskDataLoadingSo.UnloadTargetPosition.position;
     }
     
-    private void OnDeliveryArrived(VehicleController vehicleController)
+    protected override void OnDeliveryArrived(VehicleController vehicleController)
     {
         var numOfCargo = Random.Range(1, _vehicleController.CargoSlots.Count + 1);
         var randomZone = (StockZone) Random.Range(0, Enum.GetValues(typeof(StockZone)).Length);

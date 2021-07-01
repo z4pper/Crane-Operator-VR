@@ -2,9 +2,9 @@
 using System.Linq;
 using UnityEngine;
 
-public class OutlineColorHandler
+public static class OutlineColorHandler
 {
-    public static List<Color> AvailableOutlineColors { get; private set; }
+    private static List<Color> AvailableOutlineColors { get; }
 
     static OutlineColorHandler()
     {
@@ -23,8 +23,11 @@ public class OutlineColorHandler
 
     public static Color GetOutlineColor()
     {
-        var color = AvailableOutlineColors.First();
-        AvailableOutlineColors.Remove(color);
+        var color = AvailableOutlineColors.FirstOrDefault();
+        if (color != null)
+        {
+            AvailableOutlineColors.Remove(color);
+        }
 
         return color;
     }

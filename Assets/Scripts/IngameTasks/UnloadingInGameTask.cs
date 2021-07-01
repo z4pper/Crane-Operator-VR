@@ -2,9 +2,8 @@
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
-public class UnloadingInGameTask : InGameTask
+public class UnloadingInGameTask : CargoTransportInGameTask
 {
-    private VehicleController _vehicleController;
     private readonly TaskDataUnloadingSO _taskDataUnloadingSo;
 
     public UnloadingInGameTask(TaskDataUnloadingSO taskData)
@@ -29,14 +28,14 @@ public class UnloadingInGameTask : InGameTask
     public override void StartTask()
     {
         _taskDataUnloadingSo.InstantiateVehicle();
-        _vehicleController = _taskDataUnloadingSo.Vehicle.GetComponent<VehicleController>();
+        VehicleController = _taskDataUnloadingSo.Vehicle.GetComponent<VehicleController>();
 
         var navAgent = _taskDataUnloadingSo.Vehicle.GetComponentInChildren<NavMeshAgent>();
         navAgent.enabled = true;
         navAgent.destination = _taskDataUnloadingSo.UnloadTargetPosition.position;
     }
 
-    private void OnDeliveryArrived(VehicleController vehicleController)
+    protected override void OnDeliveryArrived(VehicleController vehicleController)
     {
         _taskDataUnloadingSo.OutlineColor = OutlineColorHandler.GetOutlineColor();
         vehicleController.CargoList.ForEach(cargo => cargo.MarkOutline(_taskDataUnloadingSo.OutlineColor));
@@ -51,7 +50,7 @@ public class UnloadingInGameTask : InGameTask
     private void OnCargoEnterContainerStock(ContainerStockController stockController, HookableBase hookable)
     {
         if (stockController.StockZone == _taskDataUnloadingSo.StockZone &&
-            _vehicleController.CargoList.Contains(hookable))
+            VehicleController.CargoList.Contains(hookable))
         {
             hookable.UnmarkOutline();
             IncreaseCurrentAmount();
@@ -61,7 +60,7 @@ public class UnloadingInGameTask : InGameTask
     private void OnCargoExitContainerStock(ContainerStockController stockController, HookableBase hookable)
     {
         if (stockController.StockZone == _taskDataUnloadingSo.StockZone &&
-            _vehicleController.CargoList.Contains(hookable))
+            VehicleController.CargoList.Contains(hookable))
         {
             hookable.MarkOutline(_taskDataUnloadingSo.OutlineColor);
             CurrentTaskGoalAmount--;
@@ -69,12 +68,12 @@ public class UnloadingInGameTask : InGameTask
         }
     }
 
-    private void FinishTask()
+    protected override void FinishTask()
     {
         if (CurrentTaskGoalAmount >= TaskData.RequiredAmount)
         {
             TaskData.TaskCompletedEventChannel.RaiseEvent(this);
-            _vehicleController.GetComponent<NavMeshAgent>().destination = _taskDataUnloadingSo.DespawnPosition.position;
+            VehicleController.GetComponent<NavMeshAgent>().destination = _taskDataUnloadingSo.DespawnPosition.position;
             
             OutlineColorHandler.ReturnOutlineColor(_taskDataUnloadingSo.OutlineColor);
 

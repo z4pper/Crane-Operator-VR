@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -9,7 +9,15 @@ public class TaskManager : MonoBehaviour
     [SerializeField] private TaskEventChannelSO taskCreatedEventChannel;
     [SerializeField] private TaskEventChannelSO taskCompletedEventChannel;
 
-    private List<InGameTask> _currentTasks = new List<InGameTask>();
+    [SerializeField] private int taskLimit;
+    [SerializeField] private float minTimeToSpawnNewTaskSeconds;
+    [SerializeField] private float maxTimeToSpawnNewTaskSeconds;
+
+    private float _timeToSpawnNextTask;
+    private float _elapsedTime;
+
+    private Dictionary<InGameTask, TaskDataBaseSO> _currentTasksToTaskData = new Dictionary<InGameTask, TaskDataBaseSO>();
+    private List<TaskDataBaseSO> _potentialTasks = new List<TaskDataBaseSO>();
 
     private void OnEnable()
     {
@@ -23,18 +31,34 @@ public class TaskManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(wait());
+        _timeToSpawnNextTask = Random.Range(minTimeToSpawnNewTaskSeconds, maxTimeToSpawnNewTaskSeconds);
+        _potentialTasks = possibleTasks;
+        Debug.Log("Start: " + _potentialTasks.Count);
+    }
+
+    private void Update()
+    {
+        if (_currentTasksToTaskData.Count >= taskLimit || _potentialTasks.Count == 0) return;
+        
+        _elapsedTime += Time.deltaTime;
+        if (_elapsedTime >= _timeToSpawnNextTask)
+        {
+            _elapsedTime = 0f;
+            _timeToSpawnNextTask = Random.Range(minTimeToSpawnNewTaskSeconds, maxTimeToSpawnNewTaskSeconds);
+            
+            CreateTask();
+        }
     }
 
     private void CreateTask()
     {
-        var taskData = possibleTasks[Random.Range(0, possibleTasks.Count)];
+        var taskData = _potentialTasks[Random.Range(0, _potentialTasks.Count)];
         switch (taskData) 
         {
             case TaskDataUnloadingSO unloadingTaskData:
             {
                 var newTask = new UnloadingInGameTask(unloadingTaskData);
-                _currentTasks.Add(newTask);
+                _currentTasksToTaskData.Add(newTask, unloadingTaskData);
                 newTask.StartTask();
                 taskCreatedEventChannel.RaiseEvent(newTask);
                 break;
@@ -42,22 +66,22 @@ public class TaskManager : MonoBehaviour
             case TaskDataLoadingSO loadingTaskData:
             {
                 var newTask = new LoadingInGameTask(loadingTaskData);
-                _currentTasks.Add(newTask);
+                _currentTasksToTaskData.Add(newTask, loadingTaskData);
                 newTask.StartTask();
                 taskCreatedEventChannel.RaiseEvent(newTask);
                 break;
             }
         }
-    }
 
-    private IEnumerator wait()
-    {
-        yield return new WaitForSeconds(1f);
-        CreateTask();
+        _potentialTasks.RemoveAll(data => data.GetType() == taskData.GetType());
+        Debug.Log("Task created: " + _potentialTasks.Count);
     }
 
     private void RemoveTask(InGameTask inGameTask)
     {
-        _currentTasks.Remove(inGameTask);
+        var tasksToAppend = possibleTasks.FindAll(data => data.GetType() == inGameTask.TaskData.GetType()).ToList();
+        _potentialTasks.AddRange(tasksToAppend);
+        _currentTasksToTaskData.Remove(inGameTask);
+        Debug.Log("Task finished: " + _potentialTasks.Count);
     }
 }
