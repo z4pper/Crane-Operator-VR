@@ -5,11 +5,12 @@ using Random = UnityEngine.Random;
 public class UnloadingInGameTask : CargoTransportInGameTask
 {
     private readonly TaskDataUnloadingSO _taskDataUnloadingSo;
+    private readonly StockZone _stockZone;
 
     public UnloadingInGameTask(TaskDataUnloadingSO taskData)
     {
         TaskData = taskData;
-        taskData.StockZone = (StockZone) Random.Range(0, Enum.GetValues(typeof(StockZone)).Length);
+        _stockZone = (StockZone) Random.Range(0, Enum.GetValues(typeof(StockZone)).Length);
         _taskDataUnloadingSo = taskData;
 
         ConfigureDescription();
@@ -22,23 +23,23 @@ public class UnloadingInGameTask : CargoTransportInGameTask
     private void ConfigureDescription()
     {
         TaskData.Description = TaskData.Description.Replace("{StockZone}",
-            Enum.GetName(typeof(StockZone), _taskDataUnloadingSo.StockZone));
+            Enum.GetName(typeof(StockZone), _stockZone));
     }
 
     public override void StartTask()
     {
-        _taskDataUnloadingSo.InstantiateVehicle();
-        VehicleController = _taskDataUnloadingSo.Vehicle.GetComponent<VehicleController>();
+        Vehicle = _taskDataUnloadingSo.InstantiateVehicle();
+        VehicleController = Vehicle.GetComponent<VehicleController>();
 
-        var navAgent = _taskDataUnloadingSo.Vehicle.GetComponentInChildren<NavMeshAgent>();
+        var navAgent = Vehicle.GetComponentInChildren<NavMeshAgent>();
         navAgent.enabled = true;
         navAgent.destination = _taskDataUnloadingSo.UnloadTargetPosition.position;
     }
 
     protected override void OnDeliveryArrived(VehicleController vehicleController)
     {
-        _taskDataUnloadingSo.OutlineColor = OutlineColorHandler.GetOutlineColor();
-        vehicleController.CargoList.ForEach(cargo => cargo.MarkOutline(_taskDataUnloadingSo.OutlineColor));
+        OutlineColor = OutlineColorHandler.GetOutlineColor();
+        vehicleController.CargoList.ForEach(cargo => cargo.MarkOutline(OutlineColor));
     }
 
     public override void IncreaseCurrentAmount()
@@ -49,7 +50,7 @@ public class UnloadingInGameTask : CargoTransportInGameTask
 
     private void OnCargoEnterContainerStock(ContainerStockController stockController, HookableBase hookable)
     {
-        if (stockController.StockZone == _taskDataUnloadingSo.StockZone &&
+        if (stockController.StockZone == _stockZone &&
             VehicleController.CargoList.Contains(hookable))
         {
             hookable.UnmarkOutline();
@@ -59,10 +60,10 @@ public class UnloadingInGameTask : CargoTransportInGameTask
 
     private void OnCargoExitContainerStock(ContainerStockController stockController, HookableBase hookable)
     {
-        if (stockController.StockZone == _taskDataUnloadingSo.StockZone &&
+        if (stockController.StockZone == _stockZone &&
             VehicleController.CargoList.Contains(hookable))
         {
-            hookable.MarkOutline(_taskDataUnloadingSo.OutlineColor);
+            hookable.MarkOutline(OutlineColor);
             CurrentTaskGoalAmount--;
             TaskData.TaskProgressionEventChannel.RaiseEvent(this);
         }
@@ -75,7 +76,7 @@ public class UnloadingInGameTask : CargoTransportInGameTask
             TaskData.TaskCompletedEventChannel.RaiseEvent(this);
             VehicleController.GetComponent<NavMeshAgent>().destination = _taskDataUnloadingSo.DespawnPosition.position;
             
-            OutlineColorHandler.ReturnOutlineColor(_taskDataUnloadingSo.OutlineColor);
+            OutlineColorHandler.ReturnOutlineColor(OutlineColor);
 
             _taskDataUnloadingSo.ContainerStockEventChannel.OnContainerStockEnter -= OnCargoEnterContainerStock;
             _taskDataUnloadingSo.ContainerStockEventChannel.OnContainerStockExit -= OnCargoExitContainerStock;

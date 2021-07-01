@@ -5,5 +5,4 @@ using UnityEngine;
 public class TaskDataLoadingSO : TaskDataCargoTransportSO
 {
     [field: SerializeField] public CargoEventChannelSO CargoEventChannel { get; private set; }
-    public List<HookableBase> CargoList { get; set; }
 }

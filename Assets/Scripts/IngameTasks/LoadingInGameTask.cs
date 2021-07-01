@@ -18,37 +18,21 @@ public class LoadingInGameTask : CargoTransportInGameTask
         taskData.ContainerStockEventChannel.OnContainerStockDelivered += RegisterCargo;
         taskData.CargoEventChannel.OnCargoLoad += OnCargoLoaded;
     }
-
-    protected override void FinishTask()
+    
+    public override void StartTask()
     {
-        if (CurrentTaskGoalAmount >= TaskData.RequiredAmount)
-        {
-            TaskData.TaskCompletedEventChannel.RaiseEvent(this);
-            _vehicleController.GetComponent<NavMeshAgent>().destination = _taskDataLoadingSo.DespawnPosition.position;
-            
-            OutlineColorHandler.ReturnOutlineColor(_taskDataLoadingSo.OutlineColor);
-            
-            _taskDataLoadingSo.SignalToTruckEventChannel.OnEventRaised -= FinishTask;
-            _taskDataLoadingSo.VehicleEventChannel.OnVehicleArrivedAtDeliveryZone -= OnDeliveryArrived;
-            _taskDataLoadingSo.ContainerStockEventChannel.OnContainerStockDelivered -= RegisterCargo;
-            _taskDataLoadingSo.CargoEventChannel.OnCargoLoad -= OnCargoLoaded;
-        }
+        Vehicle = _taskDataLoadingSo.InstantiateVehicle();
+        _vehicleController = Vehicle.GetComponent<VehicleController>();
+
+        var navAgent = Vehicle.GetComponentInChildren<NavMeshAgent>();
+        navAgent.enabled = true;
+        navAgent.destination = _taskDataLoadingSo.UnloadTargetPosition.position;
     }
     
     public override void IncreaseCurrentAmount()
     {
         CurrentTaskGoalAmount++;
         TaskData.TaskProgressionEventChannel.RaiseEvent(this);
-    }
-    
-    public override void StartTask()
-    {
-        _taskDataLoadingSo.InstantiateVehicle();
-        _vehicleController = _taskDataLoadingSo.Vehicle.GetComponent<VehicleController>();
-
-        var navAgent = _taskDataLoadingSo.Vehicle.GetComponentInChildren<NavMeshAgent>();
-        navAgent.enabled = true;
-        navAgent.destination = _taskDataLoadingSo.UnloadTargetPosition.position;
     }
     
     protected override void OnDeliveryArrived(VehicleController vehicleController)
@@ -61,11 +45,10 @@ public class LoadingInGameTask : CargoTransportInGameTask
     
     private void RegisterCargo(List<HookableBase> requestedCargo)
     {
-        _taskDataLoadingSo.CargoList = requestedCargo;
         _vehicleController.SetTargetCargoList(requestedCargo);
         
-        _taskDataLoadingSo.OutlineColor = OutlineColorHandler.GetOutlineColor();
-        requestedCargo.ForEach(cargo => cargo.MarkOutline(_taskDataLoadingSo.OutlineColor));
+        OutlineColor = OutlineColorHandler.GetOutlineColor();
+        requestedCargo.ForEach(cargo => cargo.MarkOutline(OutlineColor));
     }
 
     private void OnCargoLoaded(VehicleController vehicleController)
@@ -73,6 +56,22 @@ public class LoadingInGameTask : CargoTransportInGameTask
         if (_vehicleController == vehicleController)
         {
             IncreaseCurrentAmount();
+        }
+    }
+    
+    protected override void FinishTask()
+    {
+        if (CurrentTaskGoalAmount >= TaskData.RequiredAmount)
+        {
+            TaskData.TaskCompletedEventChannel.RaiseEvent(this);
+            _vehicleController.GetComponent<NavMeshAgent>().destination = _taskDataLoadingSo.DespawnPosition.position;
+            
+            OutlineColorHandler.ReturnOutlineColor(OutlineColor);
+            
+            _taskDataLoadingSo.SignalToTruckEventChannel.OnEventRaised -= FinishTask;
+            _taskDataLoadingSo.VehicleEventChannel.OnVehicleArrivedAtDeliveryZone -= OnDeliveryArrived;
+            _taskDataLoadingSo.ContainerStockEventChannel.OnContainerStockDelivered -= RegisterCargo;
+            _taskDataLoadingSo.CargoEventChannel.OnCargoLoad -= OnCargoLoaded;
         }
     }
 }

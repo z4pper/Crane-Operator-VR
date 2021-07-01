@@ -11,12 +11,9 @@ public abstract class TaskDataCargoTransportSO : TaskDataBaseSO
             [field: SerializeField] public VehicleEventChannelSO VehicleEventChannel { get; private set; }
         
             [SerializeField]private GameObject vehicle;
-        
-            public GameObject Vehicle { get; private set; }
-            public Color OutlineColor { get; set; }
-        
-            public void InstantiateVehicle()
+            
+            public GameObject InstantiateVehicle()
             {
-                Vehicle = Instantiate(vehicle, SpawnPosition.position, Quaternion.identity);
+                return Instantiate(vehicle, SpawnPosition.position, Quaternion.identity);
             }
 }
