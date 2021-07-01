@@ -8,9 +8,9 @@ public class ContainerStockEventChannelSO : ScriptableObject
     public event Action<ContainerStockController, HookableBase> OnContainerStockEnter;
     public event Action<ContainerStockController, HookableBase> OnContainerStockExit;
 
-    public event Action<StockZone, int> OnContainerStockRequested;
+    public event Action<InGameTask, StockZone, int> OnContainerStockRequested;
 
-    public event Action<List<HookableBase>> OnContainerStockDelivered;
+    public event Action<InGameTask, List<HookableBase>> OnContainerStockDelivered;
 
     public void RaiseContainerStockEnterEvent(ContainerStockController stockController, HookableBase hookable)
     {
@@ -22,13 +22,13 @@ public class ContainerStockEventChannelSO : ScriptableObject
         OnContainerStockExit?.Invoke(stockController, hookable);
     }
 
-    public void RaiseContainerStockRequestedEvent(StockZone stockZone, int amount)
+    public void RaiseContainerStockRequestedEvent(InGameTask task, StockZone stockZone, int amount)
     {
-        OnContainerStockRequested?.Invoke(stockZone, amount);
+        OnContainerStockRequested?.Invoke(task, stockZone, amount);
     }
 
-    public void RaiseContainerStockDeliveredEvent(List<HookableBase> deliveredCargo)
+    public void RaiseContainerStockDeliveredEvent(InGameTask task, List<HookableBase> deliveredCargo)
     {
-        OnContainerStockDelivered?.Invoke(deliveredCargo);
+        OnContainerStockDelivered?.Invoke(task, deliveredCargo);
     }
 }

@@ -5,7 +5,6 @@ using Random = UnityEngine.Random;
 
 public class LoadingInGameTask : CargoTransportInGameTask
 {
-    private VehicleController _vehicleController;
     private readonly TaskDataLoadingSO _taskDataLoadingSo;
 
     public LoadingInGameTask(TaskDataLoadingSO taskData)
@@ -22,11 +21,14 @@ public class LoadingInGameTask : CargoTransportInGameTask
     public override void StartTask()
     {
         Vehicle = _taskDataLoadingSo.InstantiateVehicle();
-        _vehicleController = Vehicle.GetComponent<VehicleController>();
+        VehicleController = Vehicle.GetComponent<VehicleController>();
 
         var navAgent = Vehicle.GetComponentInChildren<NavMeshAgent>();
         navAgent.enabled = true;
         navAgent.destination = _taskDataLoadingSo.UnloadTargetPosition.position;
+        
+        var numOfCargo = Random.Range(1, VehicleController.CargoSlots.Count + 1);
+        RequiredTaskGoalAmount = numOfCargo;
     }
     
     public override void IncreaseCurrentAmount()
@@ -37,15 +39,15 @@ public class LoadingInGameTask : CargoTransportInGameTask
     
     protected override void OnDeliveryArrived(VehicleController vehicleController)
     {
-        var numOfCargo = Random.Range(1, _vehicleController.CargoSlots.Count + 1);
-        var randomZone = (StockZone) Random.Range(0, Enum.GetValues(typeof(StockZone)).Length);
-        _taskDataLoadingSo.ContainerStockEventChannel.RaiseContainerStockRequestedEvent(randomZone, numOfCargo);
-        TaskData.RequiredAmount = numOfCargo;
+        if (vehicleController != VehicleController) return;
+        StockZone = (StockZone) Random.Range(0, Enum.GetValues(typeof(StockZone)).Length);
+        _taskDataLoadingSo.ContainerStockEventChannel.RaiseContainerStockRequestedEvent(this, StockZone, RequiredTaskGoalAmount);
     }
     
-    private void RegisterCargo(List<HookableBase> requestedCargo)
+    private void RegisterCargo(InGameTask task, List<HookableBase> requestedCargo)
     {
-        _vehicleController.SetTargetCargoList(requestedCargo);
+        if (task != this) return;
+        VehicleController.SetTargetCargoList(requestedCargo);
         
         OutlineColor = OutlineColorHandler.GetOutlineColor();
         requestedCargo.ForEach(cargo => cargo.MarkOutline(OutlineColor));
@@ -53,7 +55,7 @@ public class LoadingInGameTask : CargoTransportInGameTask
 
     private void OnCargoLoaded(VehicleController vehicleController)
     {
-        if (_vehicleController == vehicleController)
+        if (VehicleController == vehicleController)
         {
             IncreaseCurrentAmount();
         }
@@ -61,10 +63,10 @@ public class LoadingInGameTask : CargoTransportInGameTask
     
     protected override void FinishTask()
     {
-        if (CurrentTaskGoalAmount >= TaskData.RequiredAmount)
+        if (CurrentTaskGoalAmount >= RequiredTaskGoalAmount)
         {
             TaskData.TaskCompletedEventChannel.RaiseEvent(this);
-            _vehicleController.GetComponent<NavMeshAgent>().destination = _taskDataLoadingSo.DespawnPosition.position;
+            VehicleController.GetComponent<NavMeshAgent>().destination = _taskDataLoadingSo.DespawnPosition.position;
             
             OutlineColorHandler.ReturnOutlineColor(OutlineColor);
             

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -36,8 +37,11 @@ public class TaskUI : MonoBehaviour
         var taskTableEntry = tableEntry.GetComponent<TaskTableEntry>();
 
         taskTableEntry.Priority.text = inGameTask.TaskData.Priority.ToString();
+        
         taskTableEntry.Description.text = inGameTask.TaskData.Description;
-        taskTableEntry.Progress.text = $"{inGameTask.CurrentTaskGoalAmount}/{inGameTask.TaskData.RequiredAmount}";
+        taskTableEntry.Description.text = taskTableEntry.Description.text.Replace(
+            "{StockZone}",Enum.GetName(typeof(StockZone), inGameTask.StockZone));
+        taskTableEntry.Progress.text = $"{inGameTask.CurrentTaskGoalAmount}/{inGameTask.RequiredTaskGoalAmount}";
     }
 
     private void RemoveTask(InGameTask inGameTask)
@@ -50,6 +54,6 @@ public class TaskUI : MonoBehaviour
     private void UpdateTaskProgression(InGameTask inGameTask)
     {
         var tableEntry = taskToTableEntry[inGameTask];
-        tableEntry.GetComponent<TaskTableEntry>().Progress.text = $"{inGameTask.CurrentTaskGoalAmount}/{inGameTask.TaskData.RequiredAmount}";
+        tableEntry.GetComponent<TaskTableEntry>().Progress.text = $"{inGameTask.CurrentTaskGoalAmount}/{inGameTask.RequiredTaskGoalAmount}";
     }
 }

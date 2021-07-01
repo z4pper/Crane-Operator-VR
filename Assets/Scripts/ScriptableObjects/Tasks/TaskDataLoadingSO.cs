@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "new Task Data Loading", menuName = "TaskData/Loading", order = 0)]
 public class TaskDataLoadingSO : TaskDataCargoTransportSO

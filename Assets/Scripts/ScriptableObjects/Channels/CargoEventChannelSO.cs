@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 
-
 [CreateAssetMenu(fileName = "new Cargo Event Channel", menuName = "Channel/Cargo", order = 0)]
 public class CargoEventChannelSO : ScriptableObject
 {

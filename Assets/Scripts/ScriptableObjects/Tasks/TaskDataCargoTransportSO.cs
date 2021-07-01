@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-
 public abstract class TaskDataCargoTransportSO : TaskDataBaseSO
 {
             [field: SerializeField] public Transform SpawnPosition { get; private set; }

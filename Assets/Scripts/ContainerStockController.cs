@@ -39,13 +39,13 @@ public class ContainerStockController : MonoBehaviour
         }
     }
 
-    private void OnContainerStockRequest(StockZone stockZone, int amount)
+    private void OnContainerStockRequest(InGameTask task, StockZone stockZone, int amount)
     {
         if (StockZone == stockZone)
         {
             var cargoList = containerStockList.OrderBy(cargo => Random.value).Take(amount).ToList();
             
-            containerStockEventChannelSo.RaiseContainerStockDeliveredEvent(cargoList);
+            containerStockEventChannelSo.RaiseContainerStockDeliveredEvent(task, cargoList);
         }
     }
 }

@@ -32,8 +32,7 @@ public class TaskManager : MonoBehaviour
     private void Start()
     {
         _timeToSpawnNextTask = Random.Range(minTimeToSpawnNewTaskSeconds, maxTimeToSpawnNewTaskSeconds);
-        _potentialTasks = possibleTasks;
-        Debug.Log("Start: " + _potentialTasks.Count);
+        _potentialTasks = possibleTasks.ToList();
     }
 
     private void Update()
@@ -71,10 +70,17 @@ public class TaskManager : MonoBehaviour
                 taskCreatedEventChannel.RaiseEvent(newTask);
                 break;
             }
+            case TaskDataContainerStockArrangement containerStockArrangementTaskData:
+            {
+                var newTask = new ContainerStockArrangementInGameTask(containerStockArrangementTaskData);
+                _currentTasksToTaskData.Add(newTask, containerStockArrangementTaskData);
+                newTask.StartTask();
+                taskCreatedEventChannel.RaiseEvent(newTask);
+                break;
+            }
         }
 
         _potentialTasks.RemoveAll(data => data.GetType() == taskData.GetType());
-        Debug.Log("Task created: " + _potentialTasks.Count);
     }
 
     private void RemoveTask(InGameTask inGameTask)
@@ -82,6 +88,5 @@ public class TaskManager : MonoBehaviour
         var tasksToAppend = possibleTasks.FindAll(data => data.GetType() == inGameTask.TaskData.GetType()).ToList();
         _potentialTasks.AddRange(tasksToAppend);
         _currentTasksToTaskData.Remove(inGameTask);
-        Debug.Log("Task finished: " + _potentialTasks.Count);
     }
 }
