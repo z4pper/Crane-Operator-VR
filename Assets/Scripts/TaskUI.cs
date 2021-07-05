@@ -39,8 +39,12 @@ public class TaskUI : MonoBehaviour
         taskTableEntry.Priority.text = inGameTask.TaskData.Priority.ToString();
         
         taskTableEntry.Description.text = inGameTask.TaskData.Description;
+        
         taskTableEntry.Description.text = taskTableEntry.Description.text.Replace(
             "{StockZone}",Enum.GetName(typeof(StockZone), inGameTask.StockZone));
+        taskTableEntry.Description.text = taskTableEntry.Description.text.Replace(
+            "COLORCODE",$"#{ColorUtility.ToHtmlStringRGBA(inGameTask.OutlineColor)}");
+        
         taskTableEntry.Progress.text = $"{inGameTask.CurrentTaskGoalAmount}/{inGameTask.RequiredTaskGoalAmount}";
     }
 

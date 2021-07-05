@@ -6,7 +6,7 @@ public abstract class InGameTask
     public float CurrentTaskGoalAmount { get; protected set; }
     public int RequiredTaskGoalAmount { get; protected set; }
 
-    protected Color OutlineColor;
+    public Color OutlineColor { get; protected set; }
     public StockZone StockZone { get; set; }
     public abstract void IncreaseCurrentAmount();
     public abstract void StartTask();

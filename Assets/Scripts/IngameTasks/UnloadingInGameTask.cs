@@ -10,6 +10,7 @@ public class UnloadingInGameTask : CargoTransportInGameTask
     {
         TaskData = taskData;
         StockZone = (StockZone) Random.Range(0, Enum.GetValues(typeof(StockZone)).Length);
+        OutlineColor = OutlineColorHandler.GetOutlineColor();
         _taskDataUnloadingSo = taskData;
 
         taskData.ContainerStockEventChannel.OnContainerStockEnter += OnCargoEnterContainerStock;
@@ -32,7 +33,6 @@ public class UnloadingInGameTask : CargoTransportInGameTask
     protected override void OnDeliveryArrived(VehicleController vehicleController)
     {
         if (vehicleController != VehicleController) return;
-        OutlineColor = OutlineColorHandler.GetOutlineColor();
         vehicleController.CargoList.ForEach(cargo => cargo.MarkOutline(OutlineColor));
     }
 

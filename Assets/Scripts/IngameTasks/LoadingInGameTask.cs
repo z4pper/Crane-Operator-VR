@@ -29,6 +29,8 @@ public class LoadingInGameTask : CargoTransportInGameTask
         
         var numOfCargo = Random.Range(1, VehicleController.CargoSlots.Count + 1);
         RequiredTaskGoalAmount = numOfCargo;
+        
+        OutlineColor = OutlineColorHandler.GetOutlineColor();
     }
     
     public override void IncreaseCurrentAmount()
@@ -49,7 +51,6 @@ public class LoadingInGameTask : CargoTransportInGameTask
         if (task != this) return;
         VehicleController.SetTargetCargoList(requestedCargo);
         
-        OutlineColor = OutlineColorHandler.GetOutlineColor();
         requestedCargo.ForEach(cargo => cargo.MarkOutline(OutlineColor));
     }
 
