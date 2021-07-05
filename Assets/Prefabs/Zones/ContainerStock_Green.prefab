@@ -165,6 +165,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   containerStockEventChannelSo: {fileID: 11400000, guid: f1ee0d41cb1817141aed9884a621ddec, type: 2}
   <StockZone>k__BackingField: 1
+  containerStockList: []
+  availableContainerStockList: []
+  containerPrefab: {fileID: 7794856551315303669, guid: d51910e8be463584a9e160755368f3c4, type: 3}
 --- !u!1001 &2388874768849432723
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -8,6 +8,7 @@ public class ContainerStockController : MonoBehaviour
     [field: SerializeField] public StockZone StockZone { get; private set; }
     [SerializeField] private List<HookableBase> containerStockList = new List<HookableBase>();
     [SerializeField] private List<HookableBase> availableContainerStockList = new List<HookableBase>();
+    [SerializeField] private GameObject containerPrefab;
 
 
     private void OnEnable()
@@ -48,13 +49,28 @@ public class ContainerStockController : MonoBehaviour
 
     private void OnContainerStockRequest(InGameTask task, StockZone stockZone, int amount)
     {
-        if (StockZone == stockZone)
+        if (StockZone != stockZone) return;
+        
+        if (availableContainerStockList.Count < amount)
         {
-            var cargoList = containerStockList.OrderBy(cargo => Random.value).Take(amount).ToList();
-            availableContainerStockList = availableContainerStockList.Except(cargoList).ToList();
-            
-            containerStockEventChannelSo.RaiseContainerStockDeliveredEvent(task, cargoList);
+            var numToSpawn = amount - availableContainerStockList.Count;
+            var boxColliderX = GetComponent<BoxCollider>().size.x / 2;
+            var boxColliderY = GetComponent<BoxCollider>().size.y / 2;
+                
+            for (var i = 0; i < numToSpawn; i++)
+            {
+                var go = Instantiate(containerPrefab, transform, true);
+                go.transform.localPosition = new Vector3(Random.Range(-boxColliderX, boxColliderX),
+                    Random.Range(-boxColliderY, boxColliderY), 0f);
+                    
+                containerStockList.Add(go.GetComponent<HookableBase>());
+                availableContainerStockList.Add(go.GetComponent<HookableBase>());
+            }
         }
+        var cargoList = availableContainerStockList.OrderBy(cargo => Random.value).Take(amount).ToList();
+        availableContainerStockList = availableContainerStockList.Except(cargoList).ToList();
+            
+        containerStockEventChannelSo.RaiseContainerStockDeliveredEvent(task, cargoList);
     }
 }
 

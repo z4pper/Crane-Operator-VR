@@ -19,6 +19,7 @@ public class HookableBase : MonoBehaviour
         }
         else
         {
+            outline.OutlineColor = color;
             outline.enabled = true;
         }
     }
