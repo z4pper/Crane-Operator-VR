@@ -7,6 +7,7 @@ public class ContainerStockController : MonoBehaviour
     [SerializeField] private ContainerStockEventChannelSO containerStockEventChannelSo;
     [field: SerializeField] public StockZone StockZone { get; private set; }
     [SerializeField] private List<HookableBase> containerStockList = new List<HookableBase>();
+    [SerializeField] private List<HookableBase> availableContainerStockList = new List<HookableBase>();
 
 
     private void OnEnable()
@@ -25,6 +26,7 @@ public class ContainerStockController : MonoBehaviour
         if (hookable != null && !containerStockList.Contains(hookable))
         {
             containerStockList.Add(hookable);
+            availableContainerStockList.Add(hookable);
             containerStockEventChannelSo.RaiseContainerStockEnterEvent(this, hookable);
         }
     }
@@ -37,6 +39,11 @@ public class ContainerStockController : MonoBehaviour
             containerStockList.Remove(hookable);
             containerStockEventChannelSo.RaiseContainerStockExitEvent(this, hookable);
         }
+
+        if (availableContainerStockList.Contains(hookable))
+        {
+            availableContainerStockList.Remove(hookable);
+        }
     }
 
     private void OnContainerStockRequest(InGameTask task, StockZone stockZone, int amount)
@@ -44,6 +51,7 @@ public class ContainerStockController : MonoBehaviour
         if (StockZone == stockZone)
         {
             var cargoList = containerStockList.OrderBy(cargo => Random.value).Take(amount).ToList();
+            availableContainerStockList = availableContainerStockList.Except(cargoList).ToList();
             
             containerStockEventChannelSo.RaiseContainerStockDeliveredEvent(task, cargoList);
         }
