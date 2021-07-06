@@ -1,8 +1,18 @@
+using TMPro;
 using UnityEngine;
 
 public class CraneHook : MonoBehaviour
 {
+    [field: SerializeField] public TextMeshProUGUI DistanceInMeterText { get; private set; }
     public HookBase HookSlot { get; set;}
+
+    private Color _distanceInMeterStartingColor;
+    private string _distanceInMeterStartingText;
+
+    private void Start()
+    {
+        _distanceInMeterStartingText = DistanceInMeterText.text;
+    }
 
     private void Update()
     {
@@ -16,6 +26,9 @@ public class CraneHook : MonoBehaviour
                 HookSlot.DetachHookableObject();
             }
             HookSlot = null;
+
+            DistanceInMeterText.color = _distanceInMeterStartingColor;
+            DistanceInMeterText.text = _distanceInMeterStartingText;
         }
     }
 }

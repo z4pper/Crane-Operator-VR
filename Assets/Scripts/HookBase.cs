@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public abstract class HookBase : MonoBehaviour
 {
+    [SerializeField] private DistanceMeter distanceMeter;
     [SerializeField] protected Vector3 HookPosition;
     [SerializeField] protected float maxAttachToObjectDistance;
     
@@ -11,6 +13,21 @@ public abstract class HookBase : MonoBehaviour
     public bool IsHookEquipt { get; set; }
 
     protected abstract void CheckForHookableObject();
+
+    protected virtual void Update()
+    {
+        if (!IsHookEquipt) return;
+
+        distanceMeter.CalculateDistance();
+        
+        if (IsHookActive && HookableSlot == null)
+        {
+            CheckForHookableObject();
+        }
+        ToggleHook();
+        
+        OVRInput.Update();
+    }
 
     protected virtual void AttachHookableObject(HookableBase hookableBase)
     {
@@ -61,6 +78,7 @@ public abstract class HookBase : MonoBehaviour
                 transform.localPosition = HookPosition;
                 craneHook.HookSlot = this;
                 IsHookEquipt = true;
+                distanceMeter.SetupDistanceMeterText(craneHook.DistanceInMeterText);
             }
         }
     }
