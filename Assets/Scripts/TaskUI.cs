@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -34,6 +35,8 @@ public class TaskUI : MonoBehaviour
         var tableEntry = Instantiate(taskTableEntryPrefab, taskTable.transform, false);
         taskToTableEntry.Add(inGameTask, tableEntry);
 
+        OrderTableByPriority();
+
         var taskTableEntry = tableEntry.GetComponent<TaskTableEntry>();
 
         taskTableEntry.Priority.text = inGameTask.TaskData.Priority.ToString();
@@ -46,6 +49,16 @@ public class TaskUI : MonoBehaviour
             "COLORCODE",$"#{ColorUtility.ToHtmlStringRGBA(inGameTask.OutlineColor)}");
         
         taskTableEntry.Progress.text = $"{inGameTask.CurrentTaskGoalAmount}/{inGameTask.RequiredTaskGoalAmount}";
+    }
+
+    private void OrderTableByPriority()
+    {
+        var orderedTasks = taskToTableEntry.Keys.ToList().OrderBy(task => task.TaskData.Priority).ToList();
+        for (var i = 0; i < orderedTasks.Count; i++)
+        {
+            var key = orderedTasks[i];
+            taskToTableEntry[key].transform.SetSiblingIndex(i + 1);
+        }
     }
 
     private void RemoveTask(InGameTask inGameTask)
