@@ -11,6 +11,8 @@ public class Crane : MonoBehaviour
     [SerializeField] private float minCablePlatePosZ;
     [SerializeField] private float maxHookPosY;
     [SerializeField] private float minHookPosY;
+    [SerializeField] private float minCableSwingAngle;
+    [SerializeField] private float maxCableSwingAngle;
 
     [SerializeField] private float cablePlateMoveSpeed;
     [SerializeField] private float hookMoveSpeed;
@@ -28,8 +30,9 @@ public class Crane : MonoBehaviour
     
     private void RotateCrane(float speed)
     {
-        upperCranePart.RotateAround(upperCranePart.transform.position, Vector3.up,
-            speed * rotateSpeed * Time.deltaTime);
+        // upperCranePart.RotateAround(upperCranePart.transform.position, Vector3.up,
+        //     speed * rotateSpeed * Time.deltaTime);
+        transform.Rotate(Vector3.up, speed * rotateSpeed * Time.deltaTime);
     }
 
     private void MoveCablePlate(float direction)
@@ -52,11 +55,11 @@ public class Crane : MonoBehaviour
         if (pos.y < minHookPosY) pos.y = minHookPosY;
 
         hook.localPosition = pos;
-
-        var scale = 1 - (pos.y - minHookPosY) / (maxHookPosY - minHookPosY);
-
-        var cableScale = cable.localScale;
-        cableScale.y = scale;
-        cable.localScale = cableScale;
+        //
+        // var scale = 1 - (pos.y - minHookPosY) / (maxHookPosY - minHookPosY);
+        //
+        // var cableScale = cable.localScale;
+        // cableScale.y = scale;
+        // cable.localScale = cableScale;
     }
 }

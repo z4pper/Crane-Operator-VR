@@ -1,9 +1,14 @@
 fileFormatVersion: 2
-guid: 44b4fe53457b7b744b02fbe68c486a0b
+guid: 583ad53338902484cbbf2a33c310e816
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: poulie_ropes_Masche.076_poulie.002Mat
+    second: {fileID: 5251954589806372418, guid: 9b63b1a3f435ed3408ef34bacd929fbc, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
