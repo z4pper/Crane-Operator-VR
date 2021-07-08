@@ -1,12 +1,10 @@
 using UnityEngine;
 
-public class JoystickController : MonoBehaviour
+public class JoystickController : MonoBehaviour, ICraneInupt
 {
-    [SerializeField] private Transform topOfJoystick;
     [SerializeField] private float maxAngle;
     [SerializeField] private float startRegisterInputAngleThreshold;
     [SerializeField] private float startRegisterAxisAngleThreshold;
-    [SerializeField] private Crane crane;
     [SerializeField] private Transform craneRotatable;
     [SerializeField] private OVRInput.Button handTrigger;
 
@@ -16,57 +14,7 @@ public class JoystickController : MonoBehaviour
     {
         _startingRotation = transform.localRotation;
     }
-
-    private void Update()
-    {
-        var currentAngleX = transform.localRotation.eulerAngles.x;
-        var currentAngleY = transform.localRotation.eulerAngles.y;
-        var horizontalInputAxis = 0f;
-        var verticalInputAxis = 0f;
-
-        var inputIntensity = currentAngleX > 270 + startRegisterInputAngleThreshold
-            ? Mathf.Abs(270 - currentAngleX) * 1 / maxAngle
-            : 0f;
-
-        if (inputIntensity == 0) return;
-        
-        // negative movement on the horizontal axis
-        if (currentAngleY > 0 + startRegisterAxisAngleThreshold &&
-            currentAngleY < 180 - startRegisterAxisAngleThreshold)
-        {
-            horizontalInputAxis = -(1 - Mathf.Abs(90 - currentAngleY) * 1 / 75);
-        }
-        // positive movement on the horizontal axis
-        else if (currentAngleY < 360 - startRegisterAxisAngleThreshold &&
-                 currentAngleY > 180 + startRegisterAxisAngleThreshold)
-        {
-            horizontalInputAxis = (1 - Mathf.Abs(270 - currentAngleY) * 1 / 75);
-        }
-
-        // positive movement on the vertical axis
-        if (currentAngleY > 90 + startRegisterAxisAngleThreshold &&
-            currentAngleY < 270 - startRegisterAxisAngleThreshold)
-        {
-            verticalInputAxis = (1 - Mathf.Abs(180 - currentAngleY) * 1 / 75);
-        }
-        
-        // negative movement on the vertical axis
-        else if (!(currentAngleY > 90 - startRegisterAxisAngleThreshold &&
-                   currentAngleY < 270 + startRegisterAxisAngleThreshold))
-        {
-            verticalInputAxis = currentAngleY > 270
-                ? -(1 - (Mathf.Abs(360 - currentAngleY) % 360) * 1 / 75)
-                : -(1 - (Mathf.Abs(0 - currentAngleY) % 360) * 1 / 75);
-        }
-
-        horizontalInputAxis *= inputIntensity;
-        verticalInputAxis *= inputIntensity;
-        
-        crane.RotateCrane(horizontalInputAxis);
-        //crane.MoveHook();
-        crane.MoveCablePlate(verticalInputAxis);
-    }
-
+    
     private void OnTriggerStay(Collider other)
     {
         if (OVRInput.Get(handTrigger) && other.CompareTag("Player"))
@@ -100,5 +48,64 @@ public class JoystickController : MonoBehaviour
         {
             transform.localRotation = _startingRotation;
         }
+    }
+
+    public float GetHorizontalInput()
+    {
+        var currentAngleX = transform.localRotation.eulerAngles.x;
+        var currentAngleY = transform.localRotation.eulerAngles.y;
+        var horizontalInputAxis = 0f;
+
+        var inputIntensity = currentAngleX > 270 + startRegisterInputAngleThreshold
+            ? Mathf.Abs(270 - currentAngleX) * 1 / maxAngle
+            : 0f;
+
+        if (inputIntensity == 0) return 0f;
+        
+        // negative movement on the horizontal axis
+        if (currentAngleY > 0 + startRegisterAxisAngleThreshold &&
+            currentAngleY < 180 - startRegisterAxisAngleThreshold)
+        {
+            horizontalInputAxis = -(1 - Mathf.Abs(90 - currentAngleY) * 1 / 75);
+        }
+        // positive movement on the horizontal axis
+        else if (currentAngleY < 360 - startRegisterAxisAngleThreshold &&
+                 currentAngleY > 180 + startRegisterAxisAngleThreshold)
+        {
+            horizontalInputAxis = (1 - Mathf.Abs(270 - currentAngleY) * 1 / 75);
+        }
+        
+        return inputIntensity * horizontalInputAxis;
+    }
+
+    public float GetVerticalInput()
+    {
+        var currentAngleX = transform.localRotation.eulerAngles.x;
+        var currentAngleY = transform.localRotation.eulerAngles.y;
+        var verticalInputAxis = 0f;
+        
+        var inputIntensity = currentAngleX > 270 + startRegisterInputAngleThreshold
+            ? Mathf.Abs(270 - currentAngleX) * 1 / maxAngle
+            : 0f;
+
+        if (inputIntensity == 0) return 0f;
+        
+        // positive movement on the vertical axis
+        if (currentAngleY > 90 + startRegisterAxisAngleThreshold &&
+            currentAngleY < 270 - startRegisterAxisAngleThreshold)
+        {
+            verticalInputAxis = (1 - Mathf.Abs(180 - currentAngleY) * 1 / 75);
+        }
+        
+        // negative movement on the vertical axis
+        else if (!(currentAngleY > 90 - startRegisterAxisAngleThreshold &&
+                   currentAngleY < 270 + startRegisterAxisAngleThreshold))
+        {
+            verticalInputAxis = currentAngleY > 270
+                ? -(1 - (Mathf.Abs(360 - currentAngleY) % 360) * 1 / 75)
+                : -(1 - (Mathf.Abs(0 - currentAngleY) % 360) * 1 / 75);
+        }
+
+        return inputIntensity * verticalInputAxis;
     }
 }
