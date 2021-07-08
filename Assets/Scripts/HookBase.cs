@@ -25,8 +25,6 @@ public abstract class HookBase : MonoBehaviour
             CheckForHookableObject();
         }
         ToggleHook();
-        
-        OVRInput.Update();
     }
 
     protected virtual void AttachHookableObject(HookableBase hookableBase)

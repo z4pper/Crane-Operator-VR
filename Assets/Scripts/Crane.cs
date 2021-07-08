@@ -18,35 +18,35 @@ public class Crane : MonoBehaviour
 
     private void Update()
     {
-        var primaryThumbX = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick).x;
-        var primaryThumbY = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick).y;
-        var secondaryThumbY = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick).y;
-        
-        if (primaryThumbX != 0f)
-        {
-            RotateCrane(primaryThumbX);
-        }
-        
-        if (primaryThumbY != 0f)
-        {
-            MoveCablePlate(primaryThumbY);
-        }
-
-        if (secondaryThumbY != 0f)
-        {
-            MoveHook(secondaryThumbY);
-        }
-        
-        OVRInput.Update();
+        // var primaryThumbX = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick).x;
+        // var primaryThumbY = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick).y;
+        // var secondaryThumbY = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick).y;
+        //
+        // if (primaryThumbX != 0f)
+        // {
+        //     RotateCrane(primaryThumbX);
+        // }
+        //
+        // if (primaryThumbY != 0f)
+        // {
+        //     MoveCablePlate(primaryThumbY);
+        // }
+        //
+        // if (secondaryThumbY != 0f)
+        // {
+        //     MoveHook(secondaryThumbY);
+        // }
+        //
+        // OVRInput.Update();
     }
     
-    private void RotateCrane(float speed)
+    public void RotateCrane(float speed)
     {
         upperCranePart.RotateAround(upperCranePart.transform.position, Vector3.up,
             speed * rotateSpeed * Time.deltaTime);
     }
 
-    private void MoveCablePlate(float direction)
+    public void MoveCablePlate(float direction)
     {
         var pos = cablePlate.localPosition;
         pos.z -= direction * cablePlateMoveSpeed * Time.deltaTime;
@@ -57,7 +57,7 @@ public class Crane : MonoBehaviour
         cablePlate.localPosition = pos;
     }
 
-    private void MoveHook(float direction)
+    public void MoveHook(float direction)
     {
         var pos = hook.localPosition;
         pos.y -= direction * hookMoveSpeed * Time.deltaTime;
