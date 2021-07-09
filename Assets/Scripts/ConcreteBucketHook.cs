@@ -11,7 +11,7 @@ public class ConcreteBucketHook : HookBase
         throw new System.NotImplementedException();
     }
 
-    public override void DetachHookableObject()
+    protected override void DetachHookableObject()
     {
         throw new System.NotImplementedException();
     }

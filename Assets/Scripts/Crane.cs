@@ -4,7 +4,7 @@ public class Crane : MonoBehaviour
 {
     [SerializeField] private Transform upperCranePart;
     [SerializeField] private Transform cablePlate;
-    [SerializeField] private Transform hook;
+    [SerializeField] private Transform cablePlateRB;
     [SerializeField] private Transform cable;
 
     [SerializeField] private float maxCablePlatePosZ;
@@ -18,6 +18,8 @@ public class Crane : MonoBehaviour
     [SerializeField] private float hookMoveSpeed;
     [SerializeField] private float rotateSpeed;
 
+    [SerializeField] private HingeJoint cableHJ;
+
     [SerializeField] private JoystickController leftJoystick;
     [SerializeField] private JoystickController rightJoystick;
 
@@ -28,15 +30,18 @@ public class Crane : MonoBehaviour
         MoveHook(rightJoystick.GetVerticalInput());
     }
     
-    private void RotateCrane(float speed)
+    private void RotateCrane(float direction)
     {
+        if (direction == 0) return;
         // upperCranePart.RotateAround(upperCranePart.transform.position, Vector3.up,
         //     speed * rotateSpeed * Time.deltaTime);
-        transform.Rotate(Vector3.up, speed * rotateSpeed * Time.deltaTime);
+        upperCranePart.Rotate(Vector3.up, direction * rotateSpeed * Time.deltaTime);
     }
 
     private void MoveCablePlate(float direction)
     {
+        if (direction == 0) return;
+
         var pos = cablePlate.localPosition;
         pos.z -= direction * cablePlateMoveSpeed * Time.deltaTime;
 
@@ -48,18 +53,47 @@ public class Crane : MonoBehaviour
 
     private void MoveHook(float direction)
     {
-        var pos = hook.localPosition;
-        pos.y -= direction * hookMoveSpeed * Time.deltaTime;
+        if (direction == 0) return;
 
-        if (pos.y > maxHookPosY) pos.y = maxHookPosY;
-        if (pos.y < minHookPosY) pos.y = minHookPosY;
+        var posDelta = direction * hookMoveSpeed * Time.deltaTime;
+        
+        var pos = cablePlateRB.localPosition;
+        pos.y -= posDelta;
+        
+        if (pos.y > maxHookPosY)
+        {
+            posDelta -= (pos.y - maxHookPosY);
+            pos.y = maxHookPosY;
+        }
 
-        hook.localPosition = pos;
+        if (pos.y < minHookPosY)
+        {
+            posDelta -= (minHookPosY - pos.y);
+            pos.y = minHookPosY;
+        }
+
+        cablePlateRB.localPosition = pos;
+
+        var positionInPercentage = (pos.y - minHookPosY) / (maxHookPosY - minHookPosY);
+        //var cableSwingAngleLimit = maxCableSwingAngle - positionInPercentage * (maxCableSwingAngle - minCableSwingAngle);
+        var cableSwingAngleLimit = Mathf.SmoothStep(maxCableSwingAngle, minCableSwingAngle, positionInPercentage);
+        if (cableSwingAngleLimit < 0) cableSwingAngleLimit = 0;
+
+        var cableLimits = cableHJ.limits;
+        cableLimits.max = cableSwingAngleLimit;
+        cableLimits.min = -cableSwingAngleLimit;
+        cableHJ.limits = cableLimits;
+        
+        // cableHJ.autoConfigureConnectedAnchor = false;
+        
+        // var connectedAnchor = cableHJ.connectedAnchor;
+        // connectedAnchor.y -= posDelta;
+        // cableHJ.connectedAnchor = connectedAnchor;
         //
-        // var scale = 1 - (pos.y - minHookPosY) / (maxHookPosY - minHookPosY);
-        //
-        // var cableScale = cable.localScale;
-        // cableScale.y = scale;
-        // cable.localScale = cableScale;
+        // var anchor = cableHJ.anchor;
+        // anchor.y -= posDelta;
+        // cableHJ.anchor = anchor;
+        
+        // cableHJ.autoConfigureConnectedAnchor = true;
     }
 }

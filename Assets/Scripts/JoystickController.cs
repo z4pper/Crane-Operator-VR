@@ -56,8 +56,8 @@ public class JoystickController : MonoBehaviour, ICraneInupt
         var currentAngleY = transform.localRotation.eulerAngles.y;
         var horizontalInputAxis = 0f;
 
-        var inputIntensity = currentAngleX > 270 + startRegisterInputAngleThreshold
-            ? Mathf.Abs(270 - currentAngleX) * 1 / maxAngle
+        var inputIntensity = currentAngleX > _startingRotation.eulerAngles.x + startRegisterInputAngleThreshold
+            ? Mathf.Abs(_startingRotation.eulerAngles.x - currentAngleX) * 1 / maxAngle
             : 0f;
 
         if (inputIntensity == 0) return 0f;

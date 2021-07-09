@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5718244098925717345}
   - component: {fileID: 5718244098925717350}
   - component: {fileID: -5907047996787728329}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Container_Green_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5718244098925748682}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1

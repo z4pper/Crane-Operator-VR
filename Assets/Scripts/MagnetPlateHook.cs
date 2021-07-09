@@ -4,8 +4,13 @@ public class MagnetPlateHook : HookBase
 {
     protected override void CheckForHookableObject()
     {
+        var boxCollider = GetComponent<BoxCollider>();
+        var pos = boxCollider.center;
+        pos.y -= boxCollider.size.y / 2;
+        var rayStartingPosition = transform.TransformPoint(pos);
+        
         RaycastHit hit;
-        if (!Physics.Raycast(transform.position, Vector3.down, out hit, maxAttachToObjectDistance)) return;
+        if (!Physics.Raycast(rayStartingPosition, Vector3.down, out hit, maxAttachToObjectDistance, hookableLayerMask)) return;
         
         var hookable = hit.collider.GetComponent<MagnetPlateHookable>();
 

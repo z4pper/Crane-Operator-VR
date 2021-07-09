@@ -1,30 +1,61 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class HookBase : MonoBehaviour
 {
+    [SerializeField] protected LayerMask hookableLayerMask;
     [SerializeField] private DistanceMeter distanceMeter;
-    [SerializeField] protected Vector3 HookPosition;
+    [SerializeField] protected Vector3 hookPosition;
     [SerializeField] protected float maxAttachToObjectDistance;
-    
+    [SerializeField] private float maxHookSwingAngle;
+
+    private HingeJoint _hingeJoint;
     public HookableBase HookableSlot { get; private set; }
-    public bool IsHookActive { get; set; }
 
     public bool IsHookEquipt { get; set; }
 
     protected abstract void CheckForHookableObject();
-
+    
     protected virtual void Update()
     {
         if (!IsHookEquipt) return;
 
         distanceMeter.CalculateDistance();
         
-        if (IsHookActive && HookableSlot == null)
-        {
-            CheckForHookableObject();
-        }
         ToggleHook();
+    }
+
+    public void DetachFromCrane()
+    {
+        IsHookEquipt = false;
+        Destroy(_hingeJoint);
+        transform.SetParent(null);
+        
+        if (HookableSlot != null)
+        {
+            DetachHookableObject();
+        }
+    }
+
+    private void AttachToCrane(CraneHook craneHook)
+    {
+        transform.SetParent(craneHook.transform);
+        transform.localPosition = hookPosition;
+        craneHook.HookSlot = this;
+        IsHookEquipt = true;
+        distanceMeter.SetupDistanceMeterText(craneHook.DistanceInMeterText);
+
+        _hingeJoint = gameObject.AddComponent<HingeJoint>();
+        _hingeJoint.connectedBody = craneHook.GetComponent<Rigidbody>();
+
+        var axis = _hingeJoint.axis;
+        axis.z = 1;
+        _hingeJoint.axis = axis;
+
+        _hingeJoint.useLimits = true;
+        var limits = _hingeJoint.limits;
+        limits.min = -maxHookSwingAngle;
+        limits.max = maxHookSwingAngle;
+        _hingeJoint.limits = limits;
     }
 
     protected virtual void AttachHookableObject(HookableBase hookableBase)
@@ -37,7 +68,7 @@ public abstract class HookBase : MonoBehaviour
         hookableBase.transform.SetParent(this.transform);
     }
 
-    public virtual void DetachHookableObject()
+    protected virtual void DetachHookableObject()
     {
         HookableSlot.transform.SetParent(null);
         var rigidbody = HookableSlot.GetComponent<Rigidbody>();
@@ -47,20 +78,20 @@ public abstract class HookBase : MonoBehaviour
         HookableSlot = null;
     }
     
-    protected void ToggleHook()
+    private void ToggleHook()
     {
         if (OVRInput.GetDown(OVRInput.Button.One))
         {
-            IsHookActive = false;
-            if (!IsHookActive && HookableSlot != null)
+            Debug.Log("Pressed!");
+            if (HookableSlot != null)
             {
                 DetachHookableObject();
             }
-        }
 
-        if (OVRInput.GetDown(OVRInput.Button.Two))
-        {
-            IsHookActive = true;
+            else
+            {
+                CheckForHookableObject();
+            }
         }
     }
     
@@ -70,13 +101,9 @@ public abstract class HookBase : MonoBehaviour
 
         if (craneHook != null && craneHook.HookSlot == null)
         {
-            if (OVRInput.Get(OVRInput.Button.SecondaryHandTrigger))
+            if (OVRInput.Get(OVRInput.Button.SecondaryIndexTrigger))
             {
-                transform.SetParent(other.transform);
-                transform.localPosition = HookPosition;
-                craneHook.HookSlot = this;
-                IsHookEquipt = true;
-                distanceMeter.SetupDistanceMeterText(craneHook.DistanceInMeterText);
+                AttachToCrane(craneHook);
             }
         }
     }

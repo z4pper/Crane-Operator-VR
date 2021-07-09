@@ -6,14 +6,9 @@ public class DistanceMeter : MonoBehaviour
 {
     [SerializeField] private int frameInterval;
     [SerializeField] private Color distanceMeterTextColor;
+    [SerializeField] private BoxCollider boxCollider;
     private Vector3 _rayStartingPosition;
-    private BoxCollider _boxCollider;
     private TextMeshProUGUI _distanceInMeterText;
-
-    private void Start()
-    {
-        _boxCollider = GetComponent<BoxCollider>();
-    }
 
     public void SetupDistanceMeterText(TextMeshProUGUI text)
     {
@@ -25,10 +20,12 @@ public class DistanceMeter : MonoBehaviour
     {
         if (Time.frameCount % frameInterval != 0) return;
 
-        _rayStartingPosition = transform.TransformPoint(_boxCollider.center);
-        _rayStartingPosition.y -= _boxCollider.size.y / 2;
+        var pos = boxCollider.center;
+        pos.y -= boxCollider.size.y / 2;
+        _rayStartingPosition = transform.TransformPoint(pos);
 
         RaycastHit hit;
+        Debug.DrawRay(_rayStartingPosition, Vector3.down, Color.magenta);
         Physics.Raycast(_rayStartingPosition, Vector3.down, out hit);
 
         if (hit.transform != null)

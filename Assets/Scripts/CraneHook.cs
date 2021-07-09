@@ -16,15 +16,9 @@ public class CraneHook : MonoBehaviour
 
     private void Update()
     {
-        if (HookSlot != null && OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger))
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger) && HookSlot != null)
         {
-            HookSlot.IsHookActive = false;
-            HookSlot.IsHookEquipt = false;
-            HookSlot.transform.SetParent(null);
-            if (HookSlot.HookableSlot != null)
-            {
-                HookSlot.DetachHookableObject();
-            }
+            HookSlot.DetachFromCrane();
             HookSlot = null;
 
             DistanceInMeterText.color = _distanceInMeterStartingColor;
