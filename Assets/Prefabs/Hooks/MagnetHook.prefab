@@ -9,9 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4070627554262418174}
-  - component: {fileID: 5807664389948521084}
-  - component: {fileID: 7463164393381560266}
-  - component: {fileID: 1969229354794421529}
   m_Layer: 0
   m_Name: MagnetHook
   m_TagString: Untagged
@@ -34,48 +31,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &5807664389948521084
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3690161808545077316}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.8628029, y: 0.12169385, z: 2.5099144}
-  m_Center: {x: 0, y: -1.2917134, z: 0}
---- !u!65 &7463164393381560266
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3690161808545077316}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.8531044, y: 2.60364, z: 2.4978385}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1969229354794421529
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3690161808545077316}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ecf72da8b87d8a499730c377dd9211d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  distanceMeter: {fileID: 0}
-  HookPosition: {x: 0, y: -2.45, z: 0}
-  maxAttachToObjectDistance: 3
-  maxHookSwingAngle: 0
 --- !u!1 &6045336667116197590
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,7 +90,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1942661891013292446, guid: 6d31432fbe362724d9dff5f1e9bb2fd4, type: 3}
+  - {fileID: 2100000, guid: dc7e95c0ee033fe4ba3bee2288fd48ec, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -167,7 +122,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1264710469389953501}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -924,26 +924,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1498423904}
     m_Modifications:
-    - target: {fileID: 1969229354794421529, guid: 91deb1f4fe3a7ca4f99ccdad82920c64, type: 3}
-      propertyPath: hingeJoint
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1969229354794421529, guid: 91deb1f4fe3a7ca4f99ccdad82920c64, type: 3}
-      propertyPath: distanceMeter
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1969229354794421529, guid: 91deb1f4fe3a7ca4f99ccdad82920c64, type: 3}
-      propertyPath: HookPosition.y
-      value: -3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1969229354794421529, guid: 91deb1f4fe3a7ca4f99ccdad82920c64, type: 3}
-      propertyPath: maxAttachToObjectDistance
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1969229354794421529, guid: 91deb1f4fe3a7ca4f99ccdad82920c64, type: 3}
-      propertyPath: magnetPlateHookHookedPosition.y
-      value: -2.45
-      objectReference: {fileID: 0}
     - target: {fileID: 3690161808545077316, guid: 91deb1f4fe3a7ca4f99ccdad82920c64, type: 3}
       propertyPath: m_Name
       value: MagnetHook
@@ -1012,18 +992,7 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 7463164393381560266, guid: 91deb1f4fe3a7ca4f99ccdad82920c64, type: 3}
-      propertyPath: m_Size.y
-      value: 2.909037
-      objectReference: {fileID: 0}
-    - target: {fileID: 7463164393381560266, guid: 91deb1f4fe3a7ca4f99ccdad82920c64, type: 3}
-      propertyPath: m_Center.y
-      value: 0.15269858
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 5807664389948521084, guid: 91deb1f4fe3a7ca4f99ccdad82920c64, type: 3}
-    - {fileID: 1969229354794421529, guid: 91deb1f4fe3a7ca4f99ccdad82920c64, type: 3}
-    - {fileID: 7463164393381560266, guid: 91deb1f4fe3a7ca4f99ccdad82920c64, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 91deb1f4fe3a7ca4f99ccdad82920c64, type: 3}
 --- !u!4 &92085675 stripped
 Transform:
@@ -1082,7 +1051,7 @@ MonoBehaviour:
   distanceMeter: {fileID: 92085681}
   hookPosition: {x: 0, y: -1.15, z: 0}
   maxAttachToObjectDistance: 2
-  maxHookSwingAngle: 10
+  maxHookSwingAngle: 15
 --- !u!114 &92085681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6507,26 +6476,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: b3bfdc11c7193c04d93f651feb81749f, type: 3}
   m_PrefabInstance: {fileID: 736171322}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &738112399 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6064934200290405172, guid: cc85a7c518203404fb8edf66b187f683, type: 3}
-  m_PrefabInstance: {fileID: 6407373585562511715}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &738112400
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 738112399}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47d20ac2f80a46deb8b0fd320ff70987, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  frameInterval: 10
-  distanceMeterTextColor: {r: 0, g: 0.21568628, b: 1, a: 1}
-  boxCollider: {fileID: 0}
 --- !u!850595691 &739204654
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -16931,8 +16880,8 @@ HingeJoint:
     freeSpin: 0
   m_UseLimits: 1
   m_Limits:
-    min: -10
-    max: 10
+    min: -20
+    max: 20
     bounciness: 0
     bounceMinVelocity: 0.2
     contactDistance: 0
@@ -18782,7 +18731,7 @@ PrefabInstance:
     - target: {fileID: -1745649482109212539, guid: cc85a7c518203404fb8edf66b187f683, type: 3}
       propertyPath: distanceMeter
       value: 
-      objectReference: {fileID: 738112400}
+      objectReference: {fileID: 0}
     - target: {fileID: -1745649482109212539, guid: cc85a7c518203404fb8edf66b187f683, type: 3}
       propertyPath: maxAttachToObjectDistance
       value: 3
@@ -18797,15 +18746,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6872819762563199374, guid: cc85a7c518203404fb8edf66b187f683, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.38
+      value: -0.13
       objectReference: {fileID: 0}
     - target: {fileID: 6872819762563199374, guid: cc85a7c518203404fb8edf66b187f683, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.12
+      value: 1.4
       objectReference: {fileID: 0}
     - target: {fileID: 6872819762563199374, guid: cc85a7c518203404fb8edf66b187f683, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.1
+      value: 6.76
       objectReference: {fileID: 0}
     - target: {fileID: 6872819762563199374, guid: cc85a7c518203404fb8edf66b187f683, type: 3}
       propertyPath: m_LocalRotation.w
