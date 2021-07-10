@@ -49,6 +49,7 @@ public abstract class HookBase : MonoBehaviour
 
         var axis = _hingeJoint.axis;
         axis.z = 1;
+        axis.x = 0;
         _hingeJoint.axis = axis;
 
         _hingeJoint.useLimits = true;
