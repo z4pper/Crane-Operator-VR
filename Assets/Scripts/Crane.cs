@@ -33,8 +33,6 @@ public class Crane : MonoBehaviour
     private void RotateCrane(float direction)
     {
         if (direction == 0) return;
-        // upperCranePart.RotateAround(upperCranePart.transform.position, Vector3.up,
-        //     speed * rotateSpeed * Time.deltaTime);
         upperCranePart.Rotate(Vector3.up, direction * rotateSpeed * Time.deltaTime);
     }
 
@@ -54,28 +52,16 @@ public class Crane : MonoBehaviour
     private void MoveHook(float direction)
     {
         if (direction == 0) return;
-
-        var posDelta = direction * hookMoveSpeed * Time.deltaTime;
         
         var pos = cablePlateRB.localPosition;
-        pos.y -= posDelta;
+        pos.y -= direction * hookMoveSpeed * Time.deltaTime;
         
-        if (pos.y > maxHookPosY)
-        {
-            posDelta -= (pos.y - maxHookPosY);
-            pos.y = maxHookPosY;
-        }
-
-        if (pos.y < minHookPosY)
-        {
-            posDelta -= (minHookPosY - pos.y);
-            pos.y = minHookPosY;
-        }
-
+        if (pos.y > maxHookPosY) pos.y = maxHookPosY;
+        if (pos.y < minHookPosY) pos.y = minHookPosY;
+        
         cablePlateRB.localPosition = pos;
 
         var positionInPercentage = (pos.y - minHookPosY) / (maxHookPosY - minHookPosY);
-        //var cableSwingAngleLimit = maxCableSwingAngle - positionInPercentage * (maxCableSwingAngle - minCableSwingAngle);
         var cableSwingAngleLimit = Mathf.SmoothStep(maxCableSwingAngle, minCableSwingAngle, positionInPercentage);
         if (cableSwingAngleLimit < 0) cableSwingAngleLimit = 0;
 
@@ -83,17 +69,5 @@ public class Crane : MonoBehaviour
         cableLimits.max = cableSwingAngleLimit;
         cableLimits.min = -cableSwingAngleLimit;
         cableHJ.limits = cableLimits;
-        
-        // cableHJ.autoConfigureConnectedAnchor = false;
-        
-        // var connectedAnchor = cableHJ.connectedAnchor;
-        // connectedAnchor.y -= posDelta;
-        // cableHJ.connectedAnchor = connectedAnchor;
-        //
-        // var anchor = cableHJ.anchor;
-        // anchor.y -= posDelta;
-        // cableHJ.anchor = anchor;
-        
-        // cableHJ.autoConfigureConnectedAnchor = true;
     }
 }

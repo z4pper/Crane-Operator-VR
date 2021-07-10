@@ -25,7 +25,6 @@ public class DistanceMeter : MonoBehaviour
         _rayStartingPosition = transform.TransformPoint(pos);
 
         RaycastHit hit;
-        Debug.DrawRay(_rayStartingPosition, Vector3.down, Color.magenta);
         Physics.Raycast(_rayStartingPosition, Vector3.down, out hit);
 
         if (hit.transform != null)
