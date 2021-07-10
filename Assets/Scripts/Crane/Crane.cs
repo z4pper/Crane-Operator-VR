@@ -19,15 +19,32 @@ public class Crane : MonoBehaviour
     [SerializeField] private float rotateSpeed;
 
     [SerializeField] private HingeJoint cableHJ;
+    [SerializeField] private JoystickController joystickControllerLeft;
+    [SerializeField] private JoystickController joystickControllerRight;
+    [SerializeField] private bool useVRControllerInput;
 
-    [SerializeField] private JoystickController leftJoystick;
-    [SerializeField] private JoystickController rightJoystick;
+    private ICraneInput _controllerInputLeft;
+    private ICraneInput _controllerInputRight;
+
+    private void Awake()
+    {
+        if (useVRControllerInput)
+        {
+            _controllerInputLeft = new VRControllerCraneInput(OVRInput.RawAxis2D.LThumbstick);
+            _controllerInputRight = new VRControllerCraneInput(OVRInput.RawAxis2D.RThumbstick);
+        }
+        else
+        {
+            _controllerInputLeft = new JoystickCraneInput(joystickControllerLeft);
+            _controllerInputRight = new JoystickCraneInput(joystickControllerRight);
+        }
+    }
 
     private void Update()
     {
-        RotateCrane(leftJoystick.GetHorizontalInput());
-        MoveCablePlate(leftJoystick.GetVerticalInput());
-        MoveHook(rightJoystick.GetVerticalInput());
+        RotateCrane(_controllerInputLeft.GetHorizontalInput());
+        MoveCablePlate(_controllerInputLeft.GetVerticalInput());
+        MoveHook(_controllerInputRight.GetVerticalInput());
     }
     
     private void RotateCrane(float direction)

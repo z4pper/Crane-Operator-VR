@@ -5803,7 +5803,7 @@ PrefabInstance:
     - target: {fileID: 3207691685332384891, guid: 2e1b75091e9c11240be41d92720a5f44, type: 3}
       propertyPath: distanceMeter
       value: 
-      objectReference: {fileID: 1334553862}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e1b75091e9c11240be41d92720a5f44, type: 3}
 --- !u!1001 &680340359
@@ -10938,17 +10938,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3405319891329671483, guid: 0cef706706453294fb9637227d31e34d, type: 3}
   m_PrefabInstance: {fileID: 1320296940}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1334553862 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9049479238618094789, guid: 2e1b75091e9c11240be41d92720a5f44, type: 3}
-  m_PrefabInstance: {fileID: 653880086}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47d20ac2f80a46deb8b0fd320ff70987, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1344815147
 GameObject:
   m_ObjectHideFlags: 0
@@ -17059,8 +17048,9 @@ MonoBehaviour:
   hookMoveSpeed: 2.5
   rotateSpeed: 15
   cableHJ: {fileID: 6160736266308199076}
-  leftJoystick: {fileID: 1245748854}
-  rightJoystick: {fileID: 489222245}
+  joystickControllerLeft: {fileID: 1245748854}
+  joystickControllerRight: {fileID: 489222245}
+  useVRControllerInput: 0
 --- !u!1001 &2220508285647980992
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17963,12 +17953,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4094528063749948988, guid: 48ad2eebbec99a34ca8eb12256dace8f, type: 3}
       propertyPath: handTrigger
-      value: 4194304
+      value: 134217728
       objectReference: {fileID: 0}
     - target: {fileID: 4094528063749948988, guid: 48ad2eebbec99a34ca8eb12256dace8f, type: 3}
       propertyPath: craneRotatable
       value: 
       objectReference: {fileID: 6160736266308199070}
+    - target: {fileID: 4094528063749948988, guid: 48ad2eebbec99a34ca8eb12256dace8f, type: 3}
+      propertyPath: <MaxAngle>k__BackingField
+      value: 45
+      objectReference: {fileID: 0}
     - target: {fileID: 4094528063749948988, guid: 48ad2eebbec99a34ca8eb12256dace8f, type: 3}
       propertyPath: startRegisterAxisAngleThreshold
       value: 15
@@ -17976,6 +17970,14 @@ PrefabInstance:
     - target: {fileID: 4094528063749948988, guid: 48ad2eebbec99a34ca8eb12256dace8f, type: 3}
       propertyPath: startRegisterInputAngleThreshold
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4094528063749948988, guid: 48ad2eebbec99a34ca8eb12256dace8f, type: 3}
+      propertyPath: <StartRegisterAxisAngleThreshold>k__BackingField
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4094528063749948988, guid: 48ad2eebbec99a34ca8eb12256dace8f, type: 3}
+      propertyPath: <StartRegisterInputAngleThreshold>k__BackingField
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4115868086663729269, guid: 48ad2eebbec99a34ca8eb12256dace8f, type: 3}
       propertyPath: m_RootOrder
@@ -18555,7 +18557,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9119721095508856437, guid: 48ad2eebbec99a34ca8eb12256dace8f, type: 3}
       propertyPath: handTrigger
-      value: 16384
+      value: 536870912
       objectReference: {fileID: 0}
     - target: {fileID: 9119721095508856437, guid: 48ad2eebbec99a34ca8eb12256dace8f, type: 3}
       propertyPath: topOfJoystick
@@ -18566,12 +18568,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6160736266308199070}
     - target: {fileID: 9119721095508856437, guid: 48ad2eebbec99a34ca8eb12256dace8f, type: 3}
+      propertyPath: <MaxAngle>k__BackingField
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 9119721095508856437, guid: 48ad2eebbec99a34ca8eb12256dace8f, type: 3}
       propertyPath: startRegisterAxisAngleThreshold
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 9119721095508856437, guid: 48ad2eebbec99a34ca8eb12256dace8f, type: 3}
       propertyPath: startRegisterInputAngleThreshold
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 9119721095508856437, guid: 48ad2eebbec99a34ca8eb12256dace8f, type: 3}
+      propertyPath: <StartRegisterAxisAngleThreshold>k__BackingField
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9119721095508856437, guid: 48ad2eebbec99a34ca8eb12256dace8f, type: 3}
+      propertyPath: <StartRegisterInputAngleThreshold>k__BackingField
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9149816066082156500, guid: 48ad2eebbec99a34ca8eb12256dace8f, type: 3}
       propertyPath: m_RootOrder
