@@ -87,5 +87,9 @@ public class TaskUI : MonoBehaviour
             "COLORCODE",$"#{ColorUtility.ToHtmlStringRGBA(inGameTask.OutlineColor)}");
 
         taskTableEntry.Priority.text = taskData.Priority.ToString();
+        
+        taskTableEntry.Progress.text = $"{inGameTask.CurrentTaskGoalAmount}/{inGameTask.RequiredTaskGoalAmount}";
+        
+        OrderTableByPriority();
     }
 }

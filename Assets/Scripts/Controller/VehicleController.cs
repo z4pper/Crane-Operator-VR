@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,20 +11,15 @@ public class VehicleController : MonoBehaviour
     [SerializeField] private VehicleEventChannelSO vehicleEventChannel;
 
     public List<HookableBase> CargoList { get; } = new List<HookableBase>();
-    public List<HookableBase> TargetedCargo { get; private set; } = new List<HookableBase>();
+    private List<HookableBase> _targetedCargo = new List<HookableBase>();
     
     private AudioSource _audioSource;
-    // TODO: find better way
     private bool _isAtDestination;
     
-
     private void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
-    }
-
-    private void Start()
-    {
+        
         CargoSlots.ForEach(slot =>
         {
             if (slot.Cargo != null)
@@ -34,7 +28,7 @@ public class VehicleController : MonoBehaviour
             }
         });
     }
-    
+
     private void OnTriggerExit(Collider other)
     {
         var cargo = other.GetComponent<HookableBase>();
@@ -53,7 +47,6 @@ public class VehicleController : MonoBehaviour
             if (!isTaskObject) return;
     
             RemoveCargoFromSlot(cargo);
-            //cargoEventChannel.RaiseCargoUnloadedEvent(this);
         }
     }
     
@@ -77,7 +70,7 @@ public class VehicleController : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         var hookable = other.gameObject.GetComponent<HookableBase>();
-        if (hookable != null && TargetedCargo.Contains(hookable))
+        if (hookable != null && _targetedCargo.Contains(hookable))
         {
             if (!CargoList.Contains(hookable) && !hookable.IsHooked)
             {
@@ -131,6 +124,6 @@ public class VehicleController : MonoBehaviour
 
     public void SetTargetCargoList(List<HookableBase> cargoList)
     {
-        TargetedCargo = cargoList;
+        _targetedCargo = cargoList;
     }
 }

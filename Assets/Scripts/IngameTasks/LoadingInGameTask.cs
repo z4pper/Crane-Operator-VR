@@ -22,8 +22,6 @@ public class LoadingInGameTask : CargoTransportInGameTask
     
     public override void StartTask()
     {
-        _taskDataLoadingSo.TaskDataAdjustedEventChannel.RaiseEvent(this, _taskDataLoadingSo.TaskDataCargoTransportArrivalSo);
-
         Vehicle = _taskDataLoadingSo.InstantiateVehicle();
         VehicleController = Vehicle.GetComponent<VehicleController>();
 
@@ -35,6 +33,8 @@ public class LoadingInGameTask : CargoTransportInGameTask
         RequiredTaskGoalAmount = numOfCargo;
         
         OutlineColor = OutlineColorHandler.GetOutlineColor();
+        
+        _taskDataLoadingSo.TaskDataAdjustedEventChannel.RaiseEvent(this, _taskDataLoadingSo.TaskDataCargoTransportArrivalSo);
     }
     
     public override void IncreaseCurrentAmount()

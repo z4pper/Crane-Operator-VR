@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public abstract class TaskDataCargoTransportSO : TaskDataBaseSO
 {
@@ -12,10 +13,10 @@ public abstract class TaskDataCargoTransportSO : TaskDataBaseSO
     [field: SerializeField] public TaskDataCargoTransportArrivalSO TaskDataCargoTransportArrivalSo { get; private set; }
     [field: SerializeField] public TaskDataCargoTransportDepartureSO TaskDataCargoTransportDepartureSo { get; private set; }
     
-    [SerializeField]private GameObject vehicle;
+    [SerializeField]private List<GameObject> possibleVehiclesToSpawn;
     
     public GameObject InstantiateVehicle()
     {
-        return Instantiate(vehicle, SpawnPosition.position, Quaternion.identity);
+        return Instantiate(possibleVehiclesToSpawn[Random.Range(0, possibleVehiclesToSpawn.Count)], SpawnPosition.position, Quaternion.identity);
     }
 }

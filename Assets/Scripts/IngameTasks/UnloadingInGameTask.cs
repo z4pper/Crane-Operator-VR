@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
@@ -23,8 +24,6 @@ public class UnloadingInGameTask : CargoTransportInGameTask
 
     public override void StartTask()
     {
-        _taskDataUnloadingSo.TaskDataAdjustedEventChannel.RaiseEvent(this, _taskDataUnloadingSo.TaskDataCargoTransportArrivalSo);
-
         Vehicle = _taskDataUnloadingSo.InstantiateVehicle();
         VehicleController = Vehicle.GetComponent<VehicleController>();
         RequiredTaskGoalAmount = VehicleController.CargoList.Count;
@@ -32,13 +31,15 @@ public class UnloadingInGameTask : CargoTransportInGameTask
         var navAgent = Vehicle.GetComponentInChildren<NavMeshAgent>();
         navAgent.enabled = true;
         navAgent.destination = _taskDataUnloadingSo.UnloadTargetPosition.position;
+        
+        _taskDataUnloadingSo.TaskDataAdjustedEventChannel.RaiseEvent(this, _taskDataUnloadingSo.TaskDataCargoTransportArrivalSo);
     }
 
     protected override void OnDeliveryArrived(VehicleController vehicleController)
     {
         if (vehicleController != VehicleController) return;
-        _taskDataUnloadingSo.TaskDataAdjustedEventChannel.RaiseEvent(this, _taskDataUnloadingSo);
         vehicleController.CargoList.ForEach(cargo => cargo.MarkOutline(OutlineColor));
+        _taskDataUnloadingSo.TaskDataAdjustedEventChannel.RaiseEvent(this, _taskDataUnloadingSo);
     }
 
     public override void IncreaseCurrentAmount()

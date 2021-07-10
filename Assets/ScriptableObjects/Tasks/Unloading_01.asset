@@ -27,4 +27,6 @@ MonoBehaviour:
   <TaskDataAdjustedEventChannel>k__BackingField: {fileID: 11400000, guid: 48ae41ffcba593741b573da9a1c7f0ec, type: 2}
   <TaskDataCargoTransportArrivalSo>k__BackingField: {fileID: 11400000, guid: d5ffd7d04d600f349a6e270cbcd2a19a, type: 2}
   <TaskDataCargoTransportDepartureSo>k__BackingField: {fileID: 11400000, guid: f6ff8b8d6cf3bbf4bb0fb49558fdb7a4, type: 2}
-  vehicle: {fileID: 879220738338410487, guid: 8837decb220570b44b496169ba2f9019, type: 3}
+  possibleVehiclesToSpawn:
+  - {fileID: 6555661787998786688, guid: 1b6f810d283a95342b7e0a274d3b8e11, type: 3}
+  - {fileID: 6251413573298840465, guid: df073ffea67a6cd48a56d8f977a35e8b, type: 3}
