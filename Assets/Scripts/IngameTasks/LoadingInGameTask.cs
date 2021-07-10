@@ -16,10 +16,14 @@ public class LoadingInGameTask : CargoTransportInGameTask
         taskData.VehicleEventChannel.OnVehicleArrivedAtDeliveryZone += OnDeliveryArrived;
         taskData.ContainerStockEventChannel.OnContainerStockDelivered += RegisterCargo;
         taskData.CargoEventChannel.OnCargoLoad += OnCargoLoaded;
+        
+        _taskDataLoadingSo.TaskCreatedEventChannel.RaiseEvent(this);
     }
     
     public override void StartTask()
     {
+        _taskDataLoadingSo.TaskDataAdjustedEventChannel.RaiseEvent(this, _taskDataLoadingSo.TaskDataCargoTransportArrivalSo);
+
         Vehicle = _taskDataLoadingSo.InstantiateVehicle();
         VehicleController = Vehicle.GetComponent<VehicleController>();
 
@@ -37,6 +41,11 @@ public class LoadingInGameTask : CargoTransportInGameTask
     {
         CurrentTaskGoalAmount++;
         TaskData.TaskProgressionEventChannel.RaiseEvent(this);
+        
+        if (CurrentTaskGoalAmount >= RequiredTaskGoalAmount)
+        {
+            _taskDataLoadingSo.TaskDataAdjustedEventChannel.RaiseEvent(this, _taskDataLoadingSo.TaskDataCargoTransportDepartureSo);
+        }
     }
     
     protected override void OnDeliveryArrived(VehicleController vehicleController)
@@ -44,6 +53,7 @@ public class LoadingInGameTask : CargoTransportInGameTask
         if (vehicleController != VehicleController) return;
         StockZone = (StockZone) Random.Range(0, Enum.GetValues(typeof(StockZone)).Length);
         _taskDataLoadingSo.ContainerStockEventChannel.RaiseContainerStockRequestedEvent(this, StockZone, RequiredTaskGoalAmount);
+        _taskDataLoadingSo.TaskDataAdjustedEventChannel.RaiseEvent(this, _taskDataLoadingSo);
     }
     
     private void RegisterCargo(InGameTask task, List<HookableBase> requestedCargo)

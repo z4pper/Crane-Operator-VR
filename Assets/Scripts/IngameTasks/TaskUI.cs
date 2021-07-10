@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
 using UnityEngine;
 
 public class TaskUI : MonoBehaviour
@@ -9,10 +8,10 @@ public class TaskUI : MonoBehaviour
     [SerializeField] private TaskEventChannelSO taskCreatedEventChannel;
     [SerializeField] private TaskEventChannelSO taskCompletedEventChannel;
     [SerializeField] private TaskEventChannelSO taskProgressionEventChannel;
+    [SerializeField] private TaskDataEventChannelSO taskDataAdjustedEventChannel;
     
     [SerializeField] private GameObject taskTable;
     [SerializeField] private GameObject taskTableEntryPrefab;
-    [SerializeField] private int taskLimit;
 
     private Dictionary<InGameTask, GameObject> taskToTableEntry = new Dictionary<InGameTask, GameObject>();
 
@@ -21,6 +20,7 @@ public class TaskUI : MonoBehaviour
         taskCreatedEventChannel.OnEventRaised += CreateTask;
         taskCompletedEventChannel.OnEventRaised += RemoveTask;
         taskProgressionEventChannel.OnEventRaised += UpdateTaskProgression;
+        taskDataAdjustedEventChannel.OnEventRaised += UpdateTaskData;
     }
 
     private void OnDisable()
@@ -28,6 +28,7 @@ public class TaskUI : MonoBehaviour
         taskCreatedEventChannel.OnEventRaised -= CreateTask;
         taskCompletedEventChannel.OnEventRaised -= RemoveTask;
         taskProgressionEventChannel.OnEventRaised -= UpdateTaskProgression;
+        taskDataAdjustedEventChannel.OnEventRaised -= UpdateTaskData;
     }
 
     private void CreateTask(InGameTask inGameTask)
@@ -72,5 +73,19 @@ public class TaskUI : MonoBehaviour
     {
         var tableEntry = taskToTableEntry[inGameTask];
         tableEntry.GetComponent<TaskTableEntry>().Progress.text = $"{inGameTask.CurrentTaskGoalAmount}/{inGameTask.RequiredTaskGoalAmount}";
+    }
+
+    private void UpdateTaskData(InGameTask inGameTask, TaskDataBaseSO taskData)
+    {
+        var tableEntry = taskToTableEntry[inGameTask];
+        var taskTableEntry = tableEntry.GetComponent<TaskTableEntry>();
+        taskTableEntry.Description.text = taskData.Description;
+        
+        taskTableEntry.Description.text = taskTableEntry.Description.text.Replace(
+            "{StockZone}",Enum.GetName(typeof(StockZone), inGameTask.StockZone));
+        taskTableEntry.Description.text = taskTableEntry.Description.text.Replace(
+            "COLORCODE",$"#{ColorUtility.ToHtmlStringRGBA(inGameTask.OutlineColor)}");
+
+        taskTableEntry.Priority.text = taskData.Priority.ToString();
     }
 }

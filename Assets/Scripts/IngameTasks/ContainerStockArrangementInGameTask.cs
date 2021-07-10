@@ -35,6 +35,7 @@ public class ContainerStockArrangementInGameTask : InGameTask
         var numOfContainer = Random.Range(1, _taskDataContainerStockArrangement.MaxAmountContainerToArrange + 1);
         _taskDataContainerStockArrangement.ContainerStockEventChannel.RaiseContainerStockRequestedEvent(this, _startingStockZone, numOfContainer);
         RequiredTaskGoalAmount = numOfContainer;
+        _taskDataContainerStockArrangement.TaskCreatedEventChannel.RaiseEvent(this);
     }
 
     private void RegisterContainer(InGameTask task, List<HookableBase> requestedContainer)

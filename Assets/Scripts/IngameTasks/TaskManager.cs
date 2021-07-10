@@ -6,7 +6,6 @@ using Random = UnityEngine.Random;
 public class TaskManager : MonoBehaviour
 {
     [SerializeField] private List<TaskDataBaseSO> possibleTasks;
-    [SerializeField] private TaskEventChannelSO taskCreatedEventChannel;
     [SerializeField] private TaskEventChannelSO taskCompletedEventChannel;
 
     [SerializeField] private int taskLimit;
@@ -16,7 +15,7 @@ public class TaskManager : MonoBehaviour
     private float _timeToSpawnNextTask;
     private float _elapsedTime;
 
-    private Dictionary<InGameTask, TaskDataBaseSO> _currentTasksToTaskData = new Dictionary<InGameTask, TaskDataBaseSO>();
+    private readonly Dictionary<InGameTask, TaskDataBaseSO> _currentTasksToTaskData = new Dictionary<InGameTask, TaskDataBaseSO>();
     private List<TaskDataBaseSO> _potentialTasks = new List<TaskDataBaseSO>();
 
     private void OnEnable()
@@ -59,7 +58,6 @@ public class TaskManager : MonoBehaviour
                 var newTask = new UnloadingInGameTask(unloadingTaskData);
                 _currentTasksToTaskData.Add(newTask, unloadingTaskData);
                 newTask.StartTask();
-                taskCreatedEventChannel.RaiseEvent(newTask);
                 break;
             }
             case TaskDataLoadingSO loadingTaskData:
@@ -67,7 +65,6 @@ public class TaskManager : MonoBehaviour
                 var newTask = new LoadingInGameTask(loadingTaskData);
                 _currentTasksToTaskData.Add(newTask, loadingTaskData);
                 newTask.StartTask();
-                taskCreatedEventChannel.RaiseEvent(newTask);
                 break;
             }
             case TaskDataContainerStockArrangement containerStockArrangementTaskData:
@@ -75,7 +72,6 @@ public class TaskManager : MonoBehaviour
                 var newTask = new ContainerStockArrangementInGameTask(containerStockArrangementTaskData);
                 _currentTasksToTaskData.Add(newTask, containerStockArrangementTaskData);
                 newTask.StartTask();
-                taskCreatedEventChannel.RaiseEvent(newTask);
                 break;
             }
         }

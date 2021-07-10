@@ -2394,9 +2394,9 @@ MonoBehaviour:
   taskCreatedEventChannel: {fileID: 11400000, guid: 5b2a479f710cf704aba168113cc59efb, type: 2}
   taskCompletedEventChannel: {fileID: 11400000, guid: d5594e6ffc9f4f34fbbbb1086febf497, type: 2}
   taskProgressionEventChannel: {fileID: 11400000, guid: d1e018734e0e5ec48a27e6eeec24ec1b, type: 2}
+  taskDataAdjustedEventChannel: {fileID: 11400000, guid: 48ae41ffcba593741b573da9a1c7f0ec, type: 2}
   taskTable: {fileID: 617645374}
   taskTableEntryPrefab: {fileID: 7013587547483190141, guid: 3d662a854b0303740b17c987d092235d, type: 3}
-  taskLimit: 7
 --- !u!1001 &201207853
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13318,10 +13318,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monitorScreensInOrder:
+  - {fileID: 408912930}
   - {fileID: 885621423}
   - {fileID: 1009814922}
   - {fileID: 1843992480}
-  - {fileID: 408912930}
 --- !u!1 &1287439173
 GameObject:
   m_ObjectHideFlags: 0
@@ -19181,7 +19181,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: abee85e83628fe64e81e906cc9cae75b, type: 2}
   - {fileID: 11400000, guid: 95887a95084183d4a9d73cdb4f0080df, type: 2}
   - {fileID: 11400000, guid: b1be22ff4f87e4c4d97ba04f1dd0777f, type: 2}
-  taskCreatedEventChannel: {fileID: 11400000, guid: 5b2a479f710cf704aba168113cc59efb, type: 2}
   taskCompletedEventChannel: {fileID: 11400000, guid: d5594e6ffc9f4f34fbbbb1086febf497, type: 2}
   taskLimit: 7
   minTimeToSpawnNewTaskSeconds: 2
@@ -20204,23 +20203,23 @@ Transform:
   - {fileID: 1700538241}
   - {fileID: 158627533}
   - {fileID: 320058784}
+  - {fileID: 261787657}
   - {fileID: 620977278}
   - {fileID: 1929112527}
   - {fileID: 1812307399}
   - {fileID: 1428964202}
   - {fileID: 81226431}
   - {fileID: 1828671129}
-  - {fileID: 261787657}
   - {fileID: 842925401}
   - {fileID: 725473486}
   - {fileID: 1841322457}
   - {fileID: 348301464}
   - {fileID: 1737315617}
   - {fileID: 99652890}
+  - {fileID: 1272307955}
   - {fileID: 1415158444}
   - {fileID: 1048280717}
   - {fileID: 1177750425}
-  - {fileID: 1272307955}
   - {fileID: 2127446986}
   - {fileID: 1914921231}
   - {fileID: 1601449836}

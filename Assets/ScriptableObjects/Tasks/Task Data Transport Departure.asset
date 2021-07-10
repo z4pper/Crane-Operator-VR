@@ -9,14 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c22f09a176984c2d9288cc45f6a1e87b, type: 3}
-  m_Name: Container Stock Arrangement Task
+  m_Script: {fileID: 11500000, guid: 332a6fed408c4ae38d379a2a2fd05640, type: 3}
+  m_Name: Task Data Transport Departure
   m_EditorClassIdentifier: 
-  <Priority>k__BackingField: 1
-  <Description>k__BackingField: Move the <color=COLORCODE>containers</color> to the
-    {StockZone} zone.
+  <Priority>k__BackingField: 2
+  <Description>k__BackingField: Signal the cargo transport to departure.
   <TaskCompletedEventChannel>k__BackingField: {fileID: 11400000, guid: d5594e6ffc9f4f34fbbbb1086febf497, type: 2}
   <TaskProgressionEventChannel>k__BackingField: {fileID: 11400000, guid: d1e018734e0e5ec48a27e6eeec24ec1b, type: 2}
   <TaskCreatedEventChannel>k__BackingField: {fileID: 11400000, guid: 5b2a479f710cf704aba168113cc59efb, type: 2}
-  <MaxAmountContainerToArrange>k__BackingField: 3
-  <ContainerStockEventChannel>k__BackingField: {fileID: 11400000, guid: f1ee0d41cb1817141aed9884a621ddec, type: 2}

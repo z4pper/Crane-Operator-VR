@@ -17,13 +17,17 @@ public class UnloadingInGameTask : CargoTransportInGameTask
         taskData.ContainerStockEventChannel.OnContainerStockExit += OnCargoExitContainerStock;
         taskData.VehicleEventChannel.OnVehicleArrivedAtDeliveryZone += OnDeliveryArrived;
         taskData.SignalToTruckEventChannel.OnEventRaised += FinishTask;
+        
+        _taskDataUnloadingSo.TaskCreatedEventChannel.RaiseEvent(this);
     }
 
     public override void StartTask()
     {
+        _taskDataUnloadingSo.TaskDataAdjustedEventChannel.RaiseEvent(this, _taskDataUnloadingSo.TaskDataCargoTransportArrivalSo);
+
         Vehicle = _taskDataUnloadingSo.InstantiateVehicle();
         VehicleController = Vehicle.GetComponent<VehicleController>();
-        RequiredTaskGoalAmount = VehicleController.CargoSlots.Count;
+        RequiredTaskGoalAmount = VehicleController.CargoList.Count;
 
         var navAgent = Vehicle.GetComponentInChildren<NavMeshAgent>();
         navAgent.enabled = true;
@@ -33,6 +37,7 @@ public class UnloadingInGameTask : CargoTransportInGameTask
     protected override void OnDeliveryArrived(VehicleController vehicleController)
     {
         if (vehicleController != VehicleController) return;
+        _taskDataUnloadingSo.TaskDataAdjustedEventChannel.RaiseEvent(this, _taskDataUnloadingSo);
         vehicleController.CargoList.ForEach(cargo => cargo.MarkOutline(OutlineColor));
     }
 
@@ -40,6 +45,11 @@ public class UnloadingInGameTask : CargoTransportInGameTask
     {
         CurrentTaskGoalAmount++;
         TaskData.TaskProgressionEventChannel.RaiseEvent(this);
+
+        if (CurrentTaskGoalAmount >= RequiredTaskGoalAmount)
+        {
+            _taskDataUnloadingSo.TaskDataAdjustedEventChannel.RaiseEvent(this, _taskDataUnloadingSo.TaskDataCargoTransportDepartureSo);
+        }
     }
 
     private void OnCargoEnterContainerStock(ContainerStockController stockController, HookableBase hookable)
