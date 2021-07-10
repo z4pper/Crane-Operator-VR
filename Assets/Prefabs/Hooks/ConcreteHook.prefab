@@ -358,7 +358,7 @@ MonoBehaviour:
   distanceMeter: {fileID: 1074292712136007775}
   hookPosition: {x: 0, y: -1.05, z: 0}
   maxAttachToObjectDistance: 2
-  maxHookSwingAngle: 15
+  maxHookSwingAngle: 10
 --- !u!114 &1074292712136007775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -372,7 +372,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   frameInterval: 10
-  distanceMeterTextColor: {r: 0, g: 0.21568628, b: 1, a: 0}
+  distanceMeterTextColor: {r: 0, g: 0.21568628, b: 1, a: 1}
   boxCollider: {fileID: 5770121746521461594}
 --- !u!54 &9214523023999442968
 Rigidbody:

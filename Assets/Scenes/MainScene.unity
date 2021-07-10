@@ -954,7 +954,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4070627554262418174, guid: 91deb1f4fe3a7ca4f99ccdad82920c64, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.31
+      value: 2.11
       objectReference: {fileID: 0}
     - target: {fileID: 4070627554262418174, guid: 91deb1f4fe3a7ca4f99ccdad82920c64, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5753,16 +5753,20 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1217135709335944474, guid: 2e1b75091e9c11240be41d92720a5f44, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 1217135709335944474, guid: 2e1b75091e9c11240be41d92720a5f44, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.6949239
+      value: -0.46
       objectReference: {fileID: 0}
     - target: {fileID: 1217135709335944474, guid: 2e1b75091e9c11240be41d92720a5f44, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.029999733
+      value: 0.014
       objectReference: {fileID: 0}
     - target: {fileID: 1217135709335944474, guid: 2e1b75091e9c11240be41d92720a5f44, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.1792297
+      value: -5.16
       objectReference: {fileID: 0}
     - target: {fileID: 1217135709335944474, guid: 2e1b75091e9c11240be41d92720a5f44, type: 3}
       propertyPath: m_LocalRotation.w
@@ -10934,26 +10938,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3405319891329671483, guid: 0cef706706453294fb9637227d31e34d, type: 3}
   m_PrefabInstance: {fileID: 1320296940}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1334553861 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1995080160966682528, guid: 2e1b75091e9c11240be41d92720a5f44, type: 3}
+--- !u!114 &1334553862 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9049479238618094789, guid: 2e1b75091e9c11240be41d92720a5f44, type: 3}
   m_PrefabInstance: {fileID: 653880086}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1334553862
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1334553861}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47d20ac2f80a46deb8b0fd320ff70987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameInterval: 10
-  distanceMeterTextColor: {r: 0, g: 0.21568628, b: 1, a: 1}
-  boxCollider: {fileID: 0}
 --- !u!1 &1344815147
 GameObject:
   m_ObjectHideFlags: 0

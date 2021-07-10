@@ -11,6 +11,7 @@ public class CraneHook : MonoBehaviour
 
     private void Start()
     {
+        _distanceInMeterStartingColor = DistanceInMeterText.color;
         _distanceInMeterStartingText = DistanceInMeterText.text;
     }
 
