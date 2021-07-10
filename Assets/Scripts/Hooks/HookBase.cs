@@ -9,15 +9,14 @@ public abstract class HookBase : MonoBehaviour
     [SerializeField] private float maxHookSwingAngle;
 
     private HingeJoint _hingeJoint;
-    public HookableBase HookableSlot { get; private set; }
-
-    public bool IsHookEquipt { get; set; }
+    private HookableBase _hookableSlot;
+    private bool _isHookEquipped;
 
     protected abstract void CheckForHookableObject();
     
     protected virtual void Update()
     {
-        if (!IsHookEquipt) return;
+        if (!_isHookEquipped) return;
 
         distanceMeter.CalculateDistance();
         
@@ -26,11 +25,11 @@ public abstract class HookBase : MonoBehaviour
 
     public void DetachFromCrane()
     {
-        IsHookEquipt = false;
+        _isHookEquipped = false;
         Destroy(_hingeJoint);
         transform.SetParent(null);
         
-        if (HookableSlot != null)
+        if (_hookableSlot != null)
         {
             DetachHookableObject();
         }
@@ -41,7 +40,7 @@ public abstract class HookBase : MonoBehaviour
         transform.SetParent(craneHook.transform);
         transform.localPosition = hookPosition;
         craneHook.HookSlot = this;
-        IsHookEquipt = true;
+        _isHookEquipped = true;
         distanceMeter.SetupDistanceMeterText(craneHook.DistanceInMeterText);
 
         _hingeJoint = gameObject.AddComponent<HingeJoint>();
@@ -61,7 +60,7 @@ public abstract class HookBase : MonoBehaviour
 
     protected virtual void AttachHookableObject(HookableBase hookableBase)
     {
-        HookableSlot = hookableBase;
+        _hookableSlot = hookableBase;
         var rigidbody = hookableBase.GetComponent<Rigidbody>();
         rigidbody.useGravity = false;
         rigidbody.isKinematic = true;
@@ -71,20 +70,19 @@ public abstract class HookBase : MonoBehaviour
 
     protected virtual void DetachHookableObject()
     {
-        HookableSlot.transform.SetParent(null);
-        var rigidbody = HookableSlot.GetComponent<Rigidbody>();
+        _hookableSlot.transform.SetParent(null);
+        var rigidbody = _hookableSlot.GetComponent<Rigidbody>();
         rigidbody.useGravity = true;
         rigidbody.isKinematic = false;
-        HookableSlot.IsHooked = false;
-        HookableSlot = null;
+        _hookableSlot.IsHooked = false;
+        _hookableSlot = null;
     }
     
     private void ToggleHook()
     {
         if (OVRInput.GetDown(OVRInput.Button.One))
         {
-            Debug.Log("Pressed!");
-            if (HookableSlot != null)
+            if (_hookableSlot != null)
             {
                 DetachHookableObject();
             }

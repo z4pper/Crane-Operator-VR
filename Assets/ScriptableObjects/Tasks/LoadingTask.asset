@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: LoadingTask
   m_EditorClassIdentifier: 
   <Priority>k__BackingField: 1
-  <Description>k__BackingField: Load the <color=COLORCODE>containers</color> onto
-    the truck.
+  <Description>k__BackingField: Load the <color=COLORCODE>cargo</color> onto the
+    truck.
   <TaskCompletedEventChannel>k__BackingField: {fileID: 11400000, guid: d5594e6ffc9f4f34fbbbb1086febf497, type: 2}
   <TaskProgressionEventChannel>k__BackingField: {fileID: 11400000, guid: d1e018734e0e5ec48a27e6eeec24ec1b, type: 2}
   <TaskCreatedEventChannel>k__BackingField: {fileID: 11400000, guid: 5b2a479f710cf704aba168113cc59efb, type: 2}
