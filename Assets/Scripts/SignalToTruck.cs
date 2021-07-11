@@ -3,20 +3,11 @@
 public class SignalToTruck : MonoBehaviour
 {
     [SerializeField] private VoidEventChannelSO signalToTruckEventChannel;
+    [SerializeField] private AudioSource audioSource;
     
-    private AudioSource _audioSource;
-    
-    private void Awake()
+    public void SignalTruck()
     {
-        _audioSource = GetComponent<AudioSource>();
-    }
-
-    private void Update()
-    {
-        if(OVRInput.GetDown(OVRInput.Button.Three))
-        {
-            _audioSource.PlayOneShot(_audioSource.clip);
-            signalToTruckEventChannel.RaiseEvent();
-        }
+        audioSource.PlayOneShot(audioSource.clip);
+        signalToTruckEventChannel.RaiseEvent();
     }
 }

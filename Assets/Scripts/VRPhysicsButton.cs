@@ -45,14 +45,12 @@ public class VRPhysicsButton : MonoBehaviour
     private void Pressed()
     {
         _isPressed = true;
-        Debug.Log("Pressed");
         onPressed?.Invoke();
     }
 
     private void Released()
     {
         _isPressed = false;
-        Debug.Log("Released");
         onReleased?.Invoke();
     }
 }

@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class Crane : MonoBehaviour
 {
+    [SerializeField] private CraneHook craneHook;
     [SerializeField] private Transform upperCranePart;
     [SerializeField] private Transform cablePlate;
     [SerializeField] private Transform cablePlateRB;
-    [SerializeField] private Transform cable;
 
     [SerializeField] private float maxCablePlatePosZ;
     [SerializeField] private float minCablePlatePosZ;
@@ -22,6 +22,7 @@ public class Crane : MonoBehaviour
     [SerializeField] private JoystickController joystickControllerLeft;
     [SerializeField] private JoystickController joystickControllerRight;
     [SerializeField] private bool useVRControllerInput;
+    [SerializeField] private BooleanSO isCraneMotorStarted;
 
     private ICraneInput _controllerInputLeft;
     private ICraneInput _controllerInputRight;
@@ -42,9 +43,11 @@ public class Crane : MonoBehaviour
 
     private void Update()
     {
+        if (!isCraneMotorStarted.Value) return;
+        
         RotateCrane(_controllerInputLeft.GetHorizontalInput());
         MoveCablePlate(_controllerInputLeft.GetVerticalInput());
-        MoveHook(_controllerInputRight.GetVerticalInput());
+        craneHook.MoveHook(_controllerInputRight.GetVerticalInput());
     }
     
     private void RotateCrane(float direction)
@@ -64,27 +67,5 @@ public class Crane : MonoBehaviour
         if (pos.z < minCablePlatePosZ) pos.z = minCablePlatePosZ;
 
         cablePlate.localPosition = pos;
-    }
-
-    private void MoveHook(float direction)
-    {
-        if (direction == 0) return;
-        
-        var pos = cablePlateRB.localPosition;
-        pos.y -= direction * hookMoveSpeed * Time.deltaTime;
-        
-        if (pos.y > maxHookPosY) pos.y = maxHookPosY;
-        if (pos.y < minHookPosY) pos.y = minHookPosY;
-        
-        cablePlateRB.localPosition = pos;
-
-        var positionInPercentage = (pos.y - minHookPosY) / (maxHookPosY - minHookPosY);
-        var cableSwingAngleLimit = Mathf.SmoothStep(maxCableSwingAngle, minCableSwingAngle, positionInPercentage);
-        if (cableSwingAngleLimit < 0) cableSwingAngleLimit = 0;
-
-        var cableLimits = cableHJ.limits;
-        cableLimits.max = cableSwingAngleLimit;
-        cableLimits.min = -cableSwingAngleLimit;
-        cableHJ.limits = cableLimits;
     }
 }

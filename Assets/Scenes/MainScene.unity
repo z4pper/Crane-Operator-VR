@@ -10912,7 +10912,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6072104220065353095, guid: 65787fe6f342ad549aec765f50da55a9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.746
+      value: -2.75
       objectReference: {fileID: 0}
     - target: {fileID: 6072104220065353095, guid: 65787fe6f342ad549aec765f50da55a9, type: 3}
       propertyPath: m_LocalPosition.z
@@ -15869,6 +15869,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   signalToTruckEventChannel: {fileID: 11400000, guid: 7dd4fcea7640aa843b86236ab9ec2ba4, type: 2}
+  audioSource: {fileID: 0}
 --- !u!82 &1557978186
 AudioSource:
   m_ObjectHideFlags: 0
@@ -20216,8 +20217,8 @@ Transform:
   - {fileID: 158627533}
   - {fileID: 261787657}
   - {fileID: 620977278}
-  - {fileID: 1929112527}
   - {fileID: 1812307399}
+  - {fileID: 1929112527}
   - {fileID: 81226431}
   - {fileID: 1828671129}
   - {fileID: 842925401}
@@ -21745,7 +21746,6 @@ MonoBehaviour:
   upperCranePart: {fileID: 6160736266308199070}
   cablePlate: {fileID: 1954168999}
   cablePlateRB: {fileID: 1137532899}
-  cable: {fileID: 0}
   maxCablePlatePosZ: 25.5
   minCablePlatePosZ: -5.5
   maxHookPosY: 26.5
@@ -21758,7 +21758,8 @@ MonoBehaviour:
   cableHJ: {fileID: 6160736266308199076}
   joystickControllerLeft: {fileID: 1245748854}
   joystickControllerRight: {fileID: 489222245}
-  useVRControllerInput: 1
+  useVRControllerInput: 0
+  isCraneMotorStarted: {fileID: 11400000, guid: 0dab704bd8b5e3a4a9c912dc547e44b3, type: 2}
 --- !u!1001 &2220508285647980992
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23215,6 +23216,10 @@ PrefabInstance:
     - target: {fileID: 8611599726060677872, guid: 48ad2eebbec99a34ca8eb12256dace8f, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8631426779199790354, guid: 48ad2eebbec99a34ca8eb12256dace8f, type: 3}
+      propertyPath: m_RootOrder
+      value: 43
       objectReference: {fileID: 0}
     - target: {fileID: 8651192467147708539, guid: 48ad2eebbec99a34ca8eb12256dace8f, type: 3}
       propertyPath: m_RootOrder
