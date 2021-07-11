@@ -19068,8 +19068,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b1be22ff4f87e4c4d97ba04f1dd0777f, type: 2}
   taskCompletedEventChannel: {fileID: 11400000, guid: d5594e6ffc9f4f34fbbbb1086febf497, type: 2}
   taskLimit: 7
-  minTimeToSpawnNewTaskSeconds: 2
-  maxTimeToSpawnNewTaskSeconds: 3
+  minTimeToSpawnNewTaskSeconds: 30
+  maxTimeToSpawnNewTaskSeconds: 45
 --- !u!1001 &1893000312
 PrefabInstance:
   m_ObjectHideFlags: 0
