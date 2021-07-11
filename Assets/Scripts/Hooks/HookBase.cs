@@ -44,11 +44,6 @@ public abstract class HookBase : MonoBehaviour
         _hingeJoint = gameObject.AddComponent<HingeJoint>();
         _hingeJoint.connectedBody = craneHook.GetComponent<Rigidbody>();
 
-        // var axis = _hingeJoint.axis;
-        // axis.z = 1;
-        // axis.x = 0;
-        // _hingeJoint.axis = axis;
-
         _hingeJoint.useLimits = true;
         var limits = _hingeJoint.limits;
         limits.min = -maxHookSwingAngle;
