@@ -3,22 +3,10 @@ using UnityEngine;
 public class Crane : MonoBehaviour
 {
     [SerializeField] private CraneHook craneHook;
+    [SerializeField] private CraneCablePlate craneCablePlate;
     [SerializeField] private Transform upperCranePart;
-    [SerializeField] private Transform cablePlate;
-    [SerializeField] private Transform cablePlateRB;
-
-    [SerializeField] private float maxCablePlatePosZ;
-    [SerializeField] private float minCablePlatePosZ;
-    [SerializeField] private float maxHookPosY;
-    [SerializeField] private float minHookPosY;
-    [SerializeField] private float minCableSwingAngle;
-    [SerializeField] private float maxCableSwingAngle;
-
-    [SerializeField] private float cablePlateMoveSpeed;
-    [SerializeField] private float hookMoveSpeed;
     [SerializeField] private float rotateSpeed;
 
-    [SerializeField] private HingeJoint cableHJ;
     [SerializeField] private JoystickController joystickControllerLeft;
     [SerializeField] private JoystickController joystickControllerRight;
     [SerializeField] private bool useVRControllerInput;
@@ -46,7 +34,7 @@ public class Crane : MonoBehaviour
         if (!isCraneMotorStarted.Value) return;
         
         RotateCrane(_controllerInputLeft.GetHorizontalInput());
-        MoveCablePlate(_controllerInputLeft.GetVerticalInput());
+        craneCablePlate.MoveCablePlate(_controllerInputLeft.GetVerticalInput());
         craneHook.MoveHook(_controllerInputRight.GetVerticalInput());
     }
     
@@ -54,18 +42,5 @@ public class Crane : MonoBehaviour
     {
         if (direction == 0) return;
         upperCranePart.Rotate(Vector3.up, direction * rotateSpeed * Time.deltaTime);
-    }
-
-    private void MoveCablePlate(float direction)
-    {
-        if (direction == 0) return;
-
-        var pos = cablePlate.localPosition;
-        pos.z -= direction * cablePlateMoveSpeed * Time.deltaTime;
-
-        if (pos.z > maxCablePlatePosZ) pos.z = maxCablePlatePosZ;
-        if (pos.z < minCablePlatePosZ) pos.z = minCablePlatePosZ;
-
-        cablePlate.localPosition = pos;
     }
 }

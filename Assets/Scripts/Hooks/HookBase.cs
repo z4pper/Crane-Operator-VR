@@ -19,8 +19,6 @@ public abstract class HookBase : MonoBehaviour
         if (!_isHookEquipped) return;
 
         distanceMeter.CalculateDistance();
-        
-        ToggleHook();
     }
 
     public void DetachFromCrane()
@@ -35,7 +33,7 @@ public abstract class HookBase : MonoBehaviour
         }
     }
 
-    private void AttachToCrane(CraneHook craneHook)
+    public void AttachToCrane(CraneHook craneHook)
     {
         transform.SetParent(craneHook.transform);
         transform.localPosition = hookPosition;
@@ -78,32 +76,15 @@ public abstract class HookBase : MonoBehaviour
         _hookableSlot = null;
     }
     
-    private void ToggleHook()
+    public void ToggleHook()
     {
-        if (OVRInput.GetDown(OVRInput.Button.One))
+        if (_hookableSlot != null)
         {
-            if (_hookableSlot != null)
-            {
-                DetachHookableObject();
-            }
-
-            else
-            {
-                CheckForHookableObject();
-            }
+            DetachHookableObject();
         }
-    }
-    
-    private void OnTriggerStay(Collider other)
-    {
-        var craneHook = other.GetComponent<CraneHook>();
-
-        if (craneHook != null && craneHook.HookSlot == null)
+        else
         {
-            if (OVRInput.Get(OVRInput.Button.SecondaryIndexTrigger))
-            {
-                AttachToCrane(craneHook);
-            }
+            CheckForHookableObject();
         }
     }
 }

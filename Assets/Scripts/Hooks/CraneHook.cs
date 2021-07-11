@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ public class CraneHook : MonoBehaviour
 
     private Color _distanceInMeterStartingColor;
     private string _distanceInMeterStartingText;
+    private bool _checkForHook;
 
     private void Start()
     {
@@ -23,9 +25,22 @@ public class CraneHook : MonoBehaviour
         _distanceInMeterStartingText = DistanceInMeterText.text;
     }
 
-    private void Update()
+    private void OnTriggerStay(Collider other)
     {
-        if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger) && HookSlot != null)
+        if (!_checkForHook) return;
+        var hookBase = other.GetComponent<HookBase>();
+
+        if (hookBase != null)
+        {
+            hookBase.AttachToCrane(this);
+        }
+
+        _checkForHook = false;    
+    }
+
+    public void ToggleCraneHook()
+    {
+        if (HookSlot != null)
         {
             HookSlot.DetachFromCrane();
             HookSlot = null;
@@ -33,6 +48,15 @@ public class CraneHook : MonoBehaviour
             DistanceInMeterText.color = _distanceInMeterStartingColor;
             DistanceInMeterText.text = _distanceInMeterStartingText;
         }
+        else
+        {
+            _checkForHook = true;
+        }
+    }
+    
+    public void ToggleAttachable()
+    {
+        if(HookSlot != null) HookSlot.ToggleHook();
     }
     
     public void MoveHook(float direction)
