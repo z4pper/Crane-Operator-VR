@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class HookableBase : MonoBehaviour
 {
+    [field: SerializeField] public AudioSource AudioSource { get; private set; }
     public bool IsHooked { get; set; }
 
     private const float OutlineWidth = 5f;

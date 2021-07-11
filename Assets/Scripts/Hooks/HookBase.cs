@@ -60,6 +60,7 @@ public abstract class HookBase : MonoBehaviour
     {
         _hookableSlot = hookableBase;
         var rigidbody = hookableBase.GetComponent<Rigidbody>();
+        hookableBase.AudioSource.Play();
         rigidbody.useGravity = false;
         rigidbody.isKinematic = true;
         hookableBase.IsHooked = true;
@@ -70,6 +71,7 @@ public abstract class HookBase : MonoBehaviour
     {
         _hookableSlot.transform.SetParent(null);
         var rigidbody = _hookableSlot.GetComponent<Rigidbody>();
+        _hookableSlot.AudioSource.Play();
         rigidbody.useGravity = true;
         rigidbody.isKinematic = false;
         _hookableSlot.IsHooked = false;

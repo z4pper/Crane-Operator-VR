@@ -12,6 +12,8 @@ public class CraneHook : MonoBehaviour
     [SerializeField] private float minCableSwingAngle;
     [SerializeField] private float maxCableSwingAngle;
     [SerializeField] private float hookMoveSpeed;
+    [SerializeField] private AudioSource craneHookAudioSource;
+    [SerializeField] private BooleanSO isCraneMotorStarted;
     
     public HookBase HookSlot { get; set;}
 
@@ -23,6 +25,14 @@ public class CraneHook : MonoBehaviour
     {
         _distanceInMeterStartingColor = DistanceInMeterText.color;
         _distanceInMeterStartingText = DistanceInMeterText.text;
+    }
+
+    private void Update()
+    {
+        if (!isCraneMotorStarted.Value && craneHookAudioSource.isPlaying)
+        {
+            craneHookAudioSource.Stop();
+        }
     }
 
     private void OnTriggerStay(Collider other)
@@ -61,7 +71,15 @@ public class CraneHook : MonoBehaviour
     
     public void MoveHook(float direction)
     {
-        if (direction == 0) return;
+        if (direction == 0)
+        {
+            craneHookAudioSource.Stop();
+            return;
+        }
+        if (!craneHookAudioSource.isPlaying)
+        {
+            craneHookAudioSource.Play();
+        }
         
         var pos = cablePlateRB.localPosition;
         pos.y -= direction * hookMoveSpeed * Time.deltaTime;
