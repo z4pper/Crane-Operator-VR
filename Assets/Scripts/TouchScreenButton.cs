@@ -8,6 +8,9 @@ public class TouchScreenButton : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        OnTouchScreen?.Invoke();
+        if (other.CompareTag("Player"))
+        {
+            OnTouchScreen?.Invoke();
+        }
     }
 }

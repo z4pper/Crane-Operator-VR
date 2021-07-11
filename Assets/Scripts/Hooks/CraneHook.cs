@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 
@@ -12,6 +11,8 @@ public class CraneHook : MonoBehaviour
     [SerializeField] private float minCableSwingAngle;
     [SerializeField] private float maxCableSwingAngle;
     [SerializeField] private float hookMoveSpeed;
+    [SerializeField] private float maxAttachHookDistance;
+    [SerializeField] private  LayerMask hookLayerMask;
     [SerializeField] private AudioSource craneHookAudioSource;
     [SerializeField] private BooleanSO isCraneMotorStarted;
     
@@ -19,7 +20,6 @@ public class CraneHook : MonoBehaviour
 
     private Color _distanceInMeterStartingColor;
     private string _distanceInMeterStartingText;
-    private bool _checkForHook;
 
     private void Start()
     {
@@ -34,20 +34,7 @@ public class CraneHook : MonoBehaviour
             craneHookAudioSource.Stop();
         }
     }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (!_checkForHook) return;
-        var hookBase = other.GetComponent<HookBase>();
-
-        if (hookBase != null)
-        {
-            hookBase.AttachToCrane(this);
-        }
-
-        _checkForHook = false;    
-    }
-
+    
     public void ToggleCraneHook()
     {
         if (HookSlot != null)
@@ -60,7 +47,21 @@ public class CraneHook : MonoBehaviour
         }
         else
         {
-            _checkForHook = true;
+            var boxCollider = GetComponent<BoxCollider>();
+            var pos = boxCollider.center;
+            pos.y -= boxCollider.size.y / 2;
+            var rayStartingPosition = transform.TransformPoint(pos);
+        
+            RaycastHit hit;
+            Debug.DrawRay(rayStartingPosition, Vector3.down, Color.blue, 999f);
+            if (!Physics.Raycast(rayStartingPosition, Vector3.down, out hit, maxAttachHookDistance, hookLayerMask)) return;
+        
+            var hook = hit.collider.GetComponent<HookBase>();
+
+            if (hook != null)
+            {
+                hook.AttachToCrane(this);
+            }
         }
     }
     

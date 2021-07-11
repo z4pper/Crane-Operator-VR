@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1217135709335944474}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Hook
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 3516090550331752446}
   - component: {fileID: 1290659627086112814}
   - component: {fileID: 280780959886616173}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   - component: {fileID: 4768596580154066262}
   - component: {fileID: 5714290243701852741}
   - component: {fileID: 5679681622107665558}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Hook_14068_Pulley_Hook_Single_Antique_v2_L2.002_14068_Pulley_Hook_Single_Antique_v2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -236,7 +236,7 @@ GameObject:
   - component: {fileID: 1691507714775550286}
   - component: {fileID: 7009970998965119284}
   - component: {fileID: 660735906472944192}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Hook_Base_14068_Pulley_Hook_Single_Antique_v2_L2.001_14068_Pulley_Hook_Single_Antique_v2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

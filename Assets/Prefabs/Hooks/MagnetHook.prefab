@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4070627554262418174}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MagnetHook
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 9058691301200861310}
   - component: {fileID: 8019776517697216321}
   - component: {fileID: 2575813996404518099}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cylinder222_Masche.073_poulis-support.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,7 +121,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1264710469389953501}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
