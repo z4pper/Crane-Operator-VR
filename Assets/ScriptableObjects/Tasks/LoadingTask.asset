@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b4d9a648c1a411ba553b1048ccbda17, type: 3}
+  m_Name: LoadingTask
+  m_EditorClassIdentifier: 
+  <Priority>k__BackingField: 1
+  <Description>k__BackingField: Load the <color=COLORCODE>cargo</color> onto the
+    truck.
+  <TaskCompletedEventChannel>k__BackingField: {fileID: 11400000, guid: d5594e6ffc9f4f34fbbbb1086febf497, type: 2}
+  <TaskProgressionEventChannel>k__BackingField: {fileID: 11400000, guid: d1e018734e0e5ec48a27e6eeec24ec1b, type: 2}
+  <TaskCreatedEventChannel>k__BackingField: {fileID: 11400000, guid: 5b2a479f710cf704aba168113cc59efb, type: 2}
+  <SpawnPosition>k__BackingField: {fileID: 8381665120150275796, guid: d87369bbb4328ce458c02c05db1bfabb, type: 3}
+  <UnloadTargetPosition>k__BackingField: {fileID: 8752716507803441520, guid: 1a7757a85b0a4c24185c81035a48b8a2, type: 3}
+  <DespawnPosition>k__BackingField: {fileID: 6685665254326486089, guid: 4cbcc5d332389be44a8331624c1316eb, type: 3}
+  <ContainerStockEventChannel>k__BackingField: {fileID: 11400000, guid: f1ee0d41cb1817141aed9884a621ddec, type: 2}
+  <SignalToTruckEventChannel>k__BackingField: {fileID: 11400000, guid: 7dd4fcea7640aa843b86236ab9ec2ba4, type: 2}
+  <VehicleEventChannel>k__BackingField: {fileID: 11400000, guid: 92c9ff523105d3d40ab829a6c40c5dee, type: 2}
+  <TaskDataAdjustedEventChannel>k__BackingField: {fileID: 11400000, guid: 48ae41ffcba593741b573da9a1c7f0ec, type: 2}
+  <TaskDataCargoTransportArrivalSo>k__BackingField: {fileID: 11400000, guid: d5ffd7d04d600f349a6e270cbcd2a19a, type: 2}
+  <TaskDataCargoTransportDepartureSo>k__BackingField: {fileID: 11400000, guid: f6ff8b8d6cf3bbf4bb0fb49558fdb7a4, type: 2}
+  possibleVehiclesToSpawn:
+  - {fileID: 979485146914717663, guid: 46e47b50714618543bd1b22f5d030688, type: 3}
+  <CargoEventChannel>k__BackingField: {fileID: 11400000, guid: 926076bf436f2064a8aeaa9fbda15ce2, type: 2}
