@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class OutlineColorHandler
 {
-    private static List<Color> AvailableOutlineColors { get; }
+    private static readonly List<Color> AvailableOutlineColors;
 
     static OutlineColorHandler()
     {
@@ -15,7 +15,6 @@ public static class OutlineColorHandler
             Color.red,
             Color.yellow,
             Color.black,
-            Color.white,
             Color.cyan,
             Color.magenta
         };
@@ -23,17 +22,17 @@ public static class OutlineColorHandler
 
     public static Color GetOutlineColor()
     {
-        var color = AvailableOutlineColors.FirstOrDefault();
-        if (color != null)
-        {
-            AvailableOutlineColors.Remove(color);
-        }
+        if (AvailableOutlineColors.Count == 0) return new Color(Random.Range(0f,1f), Random.Range(0f,1f), Random.Range(0f,1f), 1f);
+        
+        var color = AvailableOutlineColors.First();
 
+        AvailableOutlineColors.Remove(color);
+        
         return color;
     }
 
     public static void ReturnOutlineColor(Color color)
     {
-        AvailableOutlineColors.Add(color);
+        if(!AvailableOutlineColors.Contains(color)) AvailableOutlineColors.Add(color);
     }
 }
